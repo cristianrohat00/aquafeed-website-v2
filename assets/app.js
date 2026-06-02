@@ -193,9 +193,10 @@
     let pendingRange = null;
 
     // ─── Navigation ──────────────────────────────────────────────
-    var PAGE_URLS = { home:'/', products:'/produse.html', calculator:'/calculator-hranire.html', resurse:'/resurse/', contact:'/contact.html' };
+    var PREFIX = (location.pathname.indexOf('/resurse/') !== -1) ? '../' : '';
+    var PAGE_URLS = { home:PREFIX+'index.html', products:PREFIX+'produse.html', calculator:PREFIX+'calculator-hranire.html', resurse:PREFIX+'resurse/index.html', contact:PREFIX+'contact.html' };
     function navigate(page, range) {
-      var url = PAGE_URLS[page] || '/';
+      var url = PAGE_URLS[page] || (PREFIX+'index.html');
       if (page === 'products' && range) url += '?range=' + encodeURIComponent(range);
       window.location.href = url;
     }
@@ -352,7 +353,7 @@
       { slug:'oxigen-si-conversia-furajului', title:'Oxigen și Impactul asupra FCR', desc:'Cum influențează oxigenul dizolvat conversia furajului și strategiile de aerare.', img:'images/art-oxigen.jpg', category:'temperatura' }
     ];
 
-    function navigateArticle(slug) { window.location.href = '/resurse/' + slug + '.html'; }
+    function navigateArticle(slug) { var pre = (location.pathname.indexOf('/resurse/') !== -1) ? '../' : ''; window.location.href = pre + 'resurse/' + slug + '.html'; }
 
     function renderRelatedArticles(currentSlug) {
       var CAT_LABELS = {furajare:'Furajare',hatchery:'Hatchery',fcr:'FCR',management:'Management',temperatura:'Temperatură',sisteme:'Sisteme'};
@@ -857,10 +858,10 @@
 
     function setActiveNav() {
       var p = window.location.pathname, key = 'home';
-      if (p.indexOf('/produse') === 0) key = 'products';
-      else if (p.indexOf('/calculator') === 0) key = 'calculator';
-      else if (p.indexOf('/resurse') === 0) key = 'resurse';
-      else if (p.indexOf('/contact') === 0) key = 'contact';
+      if (p.indexOf('resurse') !== -1) key = 'resurse';
+      else if (p.indexOf('produse') !== -1) key = 'products';
+      else if (p.indexOf('calculator') !== -1) key = 'calculator';
+      else if (p.indexOf('contact') !== -1) key = 'contact';
       document.querySelectorAll('.nav-link,.nav-mobile-link').forEach(function(l){ l.classList.remove('active'); });
       var n = document.getElementById('nav-'+key); if (n) n.classList.add('active');
       var m = document.getElementById('mnav-'+key); if (m) m.classList.add('active');
