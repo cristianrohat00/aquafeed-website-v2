@@ -1,0 +1,60 @@
+# ════════════════════════════════════════════════════════════════════
+#  Aquafeed Distribution — .htaccess (Apache / Hosterion shared hosting)
+#  Place this file in the site ROOT (same folder as index.html).
+# ════════════════════════════════════════════════════════════════════
+
+RewriteEngine On
+
+# ── 1. Force HTTPS ──────────────────────────────────────────────────
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ── 2. Canonical host: redirect www → non-www ───────────────────────
+# (Canonical tags use https://aquafeed-biomar.ro WITHOUT www.)
+# If you prefer www, swap the two lines below accordingly.
+RewriteCond %{HTTP_HOST} ^www\.aquafeed-biomar\.ro [NC]
+RewriteRule ^ https://aquafeed-biomar.ro%{REQUEST_URI} [L,R=301]
+
+# ── 3. Custom 404 page (optional) ───────────────────────────────────
+# Create /404.html if you want a branded not-found page, then keep this line.
+ErrorDocument 404 /404.html
+
+# ── 4. Default index ────────────────────────────────────────────────
+DirectoryIndex index.html
+
+# ════════════════════════════════════════════════════════════════════
+#  OPTIONAL — clean URLs without ".html" (e.g. /produse instead of
+#  /produse.html). To enable: uncomment the block below AND change every
+#  internal link + every <link rel="canonical"> to the extensionless form,
+#  otherwise you create duplicate URLs. Leave it off until you do both.
+# ════════════════════════════════════════════════════════════════════
+# RewriteCond %{REQUEST_FILENAME}.html -f
+# RewriteCond %{REQUEST_URI} !/$
+# RewriteRule ^(.+?)/?$ $1.html [L]
+# # 301 the .html version to the clean URL:
+# RewriteCond %{THE_REQUEST} \s/+([^.\s]+)\.html[\s?] [NC]
+# RewriteRule ^ /%1 [R=301,L]
+
+# ── 5. Compression (faster pages / better Core Web Vitals) ──────────
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml application/xml
+</IfModule>
+
+# ── 6. Browser caching for static assets ────────────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 6 months"
+  ExpiresByType image/png "access plus 6 months"
+  ExpiresByType image/webp "access plus 6 months"
+  ExpiresByType image/svg+xml "access plus 6 months"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# ── 7. Security headers ─────────────────────────────────────────────
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
