@@ -241,7 +241,7 @@
     <div class="nav-links" id="navLinks">
       <a class="nav-link" href="index.html" id="nav-home">Acasă</a>
       <a class="nav-link" href="produse.html" id="nav-products">Produse</a>
-      <a class="nav-link" href="calculator-hranire.html" id="nav-calculator">Calculator Hrănire</a>
+      
       <a class="nav-link" href="resurse/index.html" id="nav-resurse">Resurse</a>
       <a class="nav-link" href="contact.html" id="nav-contact">Contact</a>
       <!-- EDIT: Webshop URL — replace # with your actual shop URL -->
@@ -278,7 +278,7 @@
   <div id="mobileMenu" style="display:none;position:fixed;top:72px;right:0;bottom:0;left:0;background:#ffffff;padding:32px 24px;flex-direction:column;gap:8px;z-index:9999">
     <a class="nav-mobile-link" href="index.html" id="mnav-home">Acasă</a>
     <a class="nav-mobile-link" href="produse.html" id="mnav-products">Produse</a>
-    <a class="nav-mobile-link" href="calculator-hranire.html" id="mnav-calculator">Calculator Hrănire</a>
+    
     <a class="nav-mobile-link" href="resurse/index.html" id="mnav-resurse">Resurse</a>
     <a class="nav-mobile-link" href="contact.html" id="mnav-contact">Contact</a>
     <!-- EDIT: Webshop URL mobile — replace # with your actual shop URL -->
@@ -295,8 +295,8 @@
     <!-- EDIT: Hero background image — replace URL with your farm photo -->
     <section class="hero" style="min-height:88vh;display:flex;align-items:center;padding:80px 24px">
       <div class="hero-bg">
-        <img src="images/home-page.jpg" alt="Fermă de păstrăv cu furaje premium BioMar în România" class="hero-main-img" fetchpriority="high">
-        <div class="hero-overlay" style="background:linear-gradient(135deg,rgba(14,31,61,.88),rgba(26,50,100,.72),rgba(110,200,228,.25))"></div>
+        <img src="images/home-page.jpg" alt="Fermă de păstrăv cu furaje premium BioMar în România" class="hero-main-img" fetchpriority="high" style="object-position: center 65%;">
+        <div class="hero-overlay" style="background:linear-gradient(135deg,rgba(14,31,61,.20),rgba(26,50,100,.20),rgba(110,200,228,.20))"></div>
       </div>
       <div style="position:absolute;inset:0;opacity:.06;pointer-events:none">
         <div class="circle-deco" style="left:0%;top:15%;width:250px;height:250px"></div>
@@ -412,6 +412,26 @@
       </div>
     </section>
 
+    <!-- ══════ BioMar Feeding Calculator callout ══════ -->
+    <section style="padding:70px 24px;background:var(--bg-alt)">
+      <div class="container" style="max-width:900px">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:30px;background:linear-gradient(135deg,var(--dark),var(--bio-blue));border-radius:24px;padding:42px">
+          <div style="flex:1;min-width:260px">
+            <div style="font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--sky-blue-light);margin-bottom:10px">Instrument oficial BioMar</div>
+            <h2 style="font-family:'Playfair Display',serif;font-size:clamp(24px,3vw,32px);font-weight:800;margin-bottom:12px;color:#fff">Calculează rația optimă de furaj</h2>
+            <p style="font-size:15px;color:rgba(255,255,255,.8);line-height:1.7">Folosește BioMar Feeding Tool pentru a calcula necesarul zilnic de hrană în funcție de specie, biomasă și temperatura apei.</p>
+          </div>
+          <div style="min-width:200px">
+            <a href="https://feedingtool.biomar.com/calculator" target="_blank" rel="noopener" class="btn btn-sky" style="padding:16px 32px;font-size:16px">
+              Deschide Calculatorul
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+            </a>
+            <p style="font-size:12px;color:rgba(255,255,255,.5);margin-top:10px">Se deschide pe site-ul BioMar, într-o filă nouă.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ══════ CTA SECTION ══════ -->
     <section style="padding:80px 24px;background:linear-gradient(135deg,var(--bio-blue),var(--dark));position:relative;overflow:hidden">
       <div style="position:absolute;inset:0;opacity:.08;pointer-events:none">
@@ -498,7 +518,7 @@
           <div style="display:flex;flex-direction:column;gap:10px">
             <a href="index.html" style="font-size:14px" id="flink-home">Acasă</a>
             <a href="produse.html" style="font-size:14px" id="flink-products">Produse</a>
-            <a href="calculator-hranire.html" style="font-size:14px" id="flink-calculator">Calculator Hrănire</a>
+            
             <a href="resurse/index.html" style="font-size:14px" id="flink-resurse">Resurse</a>
             <a href="contact.html" style="font-size:14px" id="flink-contact">Contact</a>
             <a href="docs/2025-09 RO_Feed Catalogue 2025-PROOF2.pdf" target="_blank" style="font-size:14px;display:flex;align-items:center;gap:6px" id="flink-catalog">
