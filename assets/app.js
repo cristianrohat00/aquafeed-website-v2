@@ -383,8 +383,8 @@
       img.src = f.img || (f.members[0] && f.members[0].img) || '';
       img.alt = f.family;
       document.getElementById('modalTags').innerHTML =
-        '<span class="tag" style="background:rgba(255,255,255,.2);color:#fff;backdrop-filter:blur(6px)">' + SPECIES[f.species] + '</span>' +
-        '<span class="tag" style="background:rgba(255,255,255,.2);color:#fff;backdrop-filter:blur(6px)">' + RANGES[f.range] + '</span>';
+        '<span class="tag" style="background:' + RANGE_COLORS[f.range] + '18;color:' + RANGE_COLORS[f.range] + ';font-weight:700;padding:5px 14px;border-radius:8px;font-size:12px">' + RANGES[f.range] + '</span>' +
+        '<span class="tag" style="background:rgba(26,50,100,.06);color:' + SPECIES_COLORS[f.species] + ';padding:5px 14px;border-radius:8px;font-size:12px">🐟 ' + SPECIES[f.species] + '</span>';
       var pelEl = document.getElementById('filterPellet');
       var pv = (pelEl && pelEl.value !== 'all') ? parseFloat(pelEl.value) : null;
       if (f.members.length > 1) { showMemberList(f, pv); }
