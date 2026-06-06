@@ -86,7 +86,7 @@
         app:"Pentru păstrăv >50g.",
         pellet:"3.0 – 6.0mm", img:"images/fish-grower-high-performance-efico-alpha.webp" },
 
-      { id:"t-g-3", name:"EFICO Alpha 756", species:"trout", range:"grower", size:"large",
+      { id:"t-g-3", name:"EFICO Alpha 756 - Plutitor", species:"trout", range:"grower", size:"large",
         desc:"Dietă funcțională pentru sănătatea peștilor, întărind sistemul imunitar.",
         longDesc:"SmartCare — diete funcționale pentru susținerea sănătății în momente critice. Ingrediente naturale care stimulează imunitatea și reduc mortalitatea.",
         protein:"36 - 43%", fat:"22 - 25%",
@@ -113,7 +113,7 @@
         app:"Se administrează 2-4 săptămâni înainte/în timpul perioadelor critice.",
         pellet:"3.0 – 8mm", img:"images/fish-grower-top-performance-efico-enviro.webp" },
 
-      { id:"t-g-6", name:"EFICO Enviro 921 ADVANCE", species:"trout", range:"grower", size:"large",
+      { id:"t-g-6", name:"EFICO Enviro 921 ADVANCE - Plutitor", species:"trout", range:"grower", size:"large",
         desc:"Dietă funcțională pentru sănătatea peștilor, întărind sistemul imunitar.",
         longDesc:"SmartCare — diete funcționale pentru susținerea sănătății în momente critice. Ingrediente naturale care stimulează imunitatea și reduc mortalitatea.",
         protein:"42%", fat:"28%",
