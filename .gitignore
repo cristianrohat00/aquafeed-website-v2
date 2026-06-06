@@ -1,0 +1,4 @@
+
+# Local image backups (originals before compression) — do not commit
+archive/originals-backup/
+node_modules/

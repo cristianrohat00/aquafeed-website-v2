@@ -1,4 +1,32 @@
 
+    // ─── ANALYTICS (launch-ready) ────────────────────────────────
+    // Fill in your IDs to activate. While empty, NOTHING loads — no
+    // errors, no requests. Get the IDs from:
+    //   GA4:        https://analytics.google.com  (Admin → Data Streams → "G-XXXXXXXXXX")
+    //   Meta Pixel: https://business.facebook.com  (Events Manager → your Pixel ID, digits only)
+    const GA4_MEASUREMENT_ID = '';   // e.g. 'G-XXXXXXXXXX'
+    const META_PIXEL_ID      = '';   // e.g. '123456789012345'
+    (function loadAnalytics() {
+      if (GA4_MEASUREMENT_ID) {
+        var s = document.createElement('script'); s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', GA4_MEASUREMENT_ID);
+      }
+      if (META_PIXEL_ID) {
+        !function (f, b, e, v, n, t, s) {
+          if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+          if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = [];
+          t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+        }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+        window.fbq('init', META_PIXEL_ID);
+        window.fbq('track', 'PageView');
+      }
+    })();
+
     // ─── SHOP LINKING ────────────────────────────────────────────
     // The "Cumpără Acum" buttons link to the Shopify webshop.
     // Best (exact product page): add a `shopUrl` field to a product, e.g.
@@ -224,10 +252,10 @@
     const RANGE_COLORS = { starter:"#4a9fd4", pregrower:"#4a9fd4", grower:"#4a9fd4", broodstock:"#4a9fd4" };
     const RANGE_ICONS = { starter:"", pregrower:"", grower:"", broodstock:"" };
     const RANGE_IMGS = {
-      starter:"images/fry_trout.png",
-      pregrower:"images/pre_grower_fish.png",
+      starter:"images/fry_trout.jpg",
+      pregrower:"images/pre_grower_fish.jpg",
       grower:"images/grower_trout.jpg",
-      broodstock:"images/broodstock_trout.png"
+      broodstock:"images/broodstock_trout.jpg"
     };
     var RANGE_DESCS = {
       starter:"Diete de start și hrană pentru larviculturi, formulate pentru supraviețuire maximă și creștere uniformă în primele etape de viață.",
@@ -515,14 +543,14 @@
     ];
 
     var RESOURCE_ARTICLES = [
-      { slug:'furaj-pastrav', title:'Furaj Păstrăv: Ghid Complet', desc:'Gama completă de furaje BioMar pentru păstrăv, pe etape de creștere.', img:'images/art-furaj-pastrav.jpg', category:'furajare' },
-      { slug:'hranire-pastrav-temperatura', title:'Hrănirea Păstrăvului în Funcție de Temperatură', desc:'Ajustarea rației și a frecvenței de hrănire în funcție de temperatura apei.', img:'images/art-temperatura.jpg', category:'temperatura' },
-      { slug:'fcr-pastrav', title:'FCR Păstrăv: Optimizarea Conversiei', desc:'Ce este FCR, ce îl influențează și cum reduci costul pe kilogram de pește.', img:'images/art-fcr.jpg', category:'fcr' },
-      { slug:'furaj-hatchery-pastrav', title:'Furaj pentru Hatchery și Puiet', desc:'Furajul de start și protocolul de hrănire pentru puiet sănătos și uniform.', img:'images/art-hatchery.jpg', category:'hatchery' },
-      { slug:'dimensiuni-granule-pastrav', title:'Dimensiunea Granulelor: Ghid Complet', desc:'Cum alegi dimensiunea peletului în funcție de greutatea peștelui.', img:'images/art-granule.jpg', category:'furajare' },
-      { slug:'furaj-flow-through', title:'Furajare în Sisteme Flow-Through', desc:'Alegerea și administrarea furajului în păstrăvăriile cu debit continuu.', img:'images/art-flowthrough.jpg', category:'sisteme' },
-      { slug:'furaj-ras', title:'Furajare în Sisteme RAS', desc:'Furaje cu emisii reduse și stabilitate ridicată pentru sistemele de recirculare.', img:'images/art-ras.jpg', category:'sisteme' },
-      { slug:'oxigen-si-conversia-furajului', title:'Oxigen și Impactul asupra FCR', desc:'Cum influențează oxigenul dizolvat conversia furajului și strategiile de aerare.', img:'images/art-oxigen.jpg', category:'temperatura' }
+      { slug:'furaj-pastrav', title:'Furaj Păstrăv: Ghid Complet', desc:'Gama completă de furaje BioMar pentru păstrăv, pe etape de creștere.', img:'images/grower_trout.jpg', category:'furajare' },
+      { slug:'hranire-pastrav-temperatura', title:'Hrănirea Păstrăvului în Funcție de Temperatură', desc:'Ajustarea rației și a frecvenței de hrănire în funcție de temperatura apei.', img:'images/fish_farm2.jpg', category:'temperatura' },
+      { slug:'fcr-pastrav', title:'FCR Păstrăv: Optimizarea Conversiei', desc:'Ce este FCR, ce îl influențează și cum reduci costul pe kilogram de pește.', img:'images/productie_furaj.jpg', category:'fcr' },
+      { slug:'furaj-hatchery-pastrav', title:'Furaj pentru Hatchery și Puiet', desc:'Furajul de start și protocolul de hrănire pentru puiet sănătos și uniform.', img:'images/fry_trout_v2.jpg', category:'hatchery' },
+      { slug:'dimensiuni-granule-pastrav', title:'Dimensiunea Granulelor: Ghid Complet', desc:'Cum alegi dimensiunea peletului în funcție de greutatea peștelui.', img:'images/products_image.jpg', category:'furajare' },
+      { slug:'furaj-flow-through', title:'Furajare în Sisteme Flow-Through', desc:'Alegerea și administrarea furajului în păstrăvăriile cu debit continuu.', img:'images/home-page.jpg', category:'sisteme' },
+      { slug:'furaj-ras', title:'Furajare în Sisteme RAS', desc:'Furaje cu emisii reduse și stabilitate ridicată pentru sistemele de recirculare.', img:'images/productie_furaj.jpg', category:'sisteme' },
+      { slug:'oxigen-si-conversia-furajului', title:'Oxigen și Impactul asupra FCR', desc:'Cum influențează oxigenul dizolvat conversia furajului și strategiile de aerare.', img:'images/fish_farm2.jpg', category:'temperatura' }
     ];
 
     function navigateArticle(slug) { var pre = (location.pathname.indexOf('/resurse/') !== -1) ? '../' : ''; window.location.href = pre + 'resurse/' + slug + '.html'; }
@@ -837,7 +865,7 @@
         // Why Us
         'whyTitle':'De Ce Aquafeed Distribution?',
         'whyP1':'Mai mult decât un furnizor de furaje — un partener real pentru acvacultură.',
-        'whyP2':'Cu peste 12 ani de experiență pe piața din România, înțelegem de ce au nevoie fermierii piscicoli: rezultate constante, calitate sigură, suport tehnic și livrări de încredere.',
+        'whyP2':'Cu peste 15 ani de experiență pe piața din România, înțelegem de ce au nevoie fermierii piscicoli: rezultate constante, calitate sigură, suport tehnic și livrări de încredere.',
         'whyP3':'Prin parteneriatul nostru cu BioMar, aducem în România soluții de furajare de clasă mondială, susținute de cunoștințe locale și experiență practică în ferme.',
         'whyP4':'Ajutăm fermele să crească mai eficient, să performeze mai bine și să planifice cu încredere.',
         'whyP5':'Aquafeed Distribution — calitate globală, expertiză locală.',
@@ -884,7 +912,7 @@
         'heroCta':'Discover Products', 'heroShop':'Online Shop',
         'whyTitle':'Why Aquafeed Distribution?',
         'whyP1':'More than a feed supplier — a real aquaculture partner.',
-        'whyP2':'With over 12 years of experience on the Romanian market, we understand what fish farmers need: consistent results, reliable quality, technical support, and dependable deliveries.',
+        'whyP2':'With over 15 years of experience on the Romanian market, we understand what fish farmers need: consistent results, reliable quality, technical support, and dependable deliveries.',
         'whyP3':'Through our partnership with BioMar, we bring world-class feeding solutions to Romania, backed by local knowledge and practical farm experience.',
         'whyP4':'We help farms grow more efficiently, perform better, and plan with confidence.',
         'whyP5':'Aquafeed Distribution — global quality, local expertise.',
@@ -928,9 +956,15 @@
     const EXPLORE_I18N = { ro:'Explorează Gama →', en:'Explore Range →' };
 
     function toggleLang() {
-      currentLang = currentLang === 'ro' ? 'en' : 'ro';
-      document.getElementById('langBtn').textContent = currentLang === 'ro' ? 'EN' : 'RO';
-      document.getElementById('langBtnMobile').textContent = currentLang === 'ro' ? 'EN' : 'RO';
+      setLanguage(currentLang === 'ro' ? 'en' : 'ro');
+    }
+
+    // Apply a language and persist it so the choice survives page navigation/reload.
+    function setLanguage(lang) {
+      currentLang = lang;
+      try { localStorage.setItem('aq_lang', lang); } catch (e) {}
+      var lb = document.getElementById('langBtn'); if (lb) lb.textContent = currentLang === 'ro' ? 'EN' : 'RO';
+      var lbm = document.getElementById('langBtnMobile'); if (lbm) lbm.textContent = currentLang === 'ro' ? 'EN' : 'RO';
       document.documentElement.lang = currentLang;
 
       // Update all translatable elements
@@ -1058,4 +1092,8 @@
         var slug = window.location.pathname.replace(/^.*\/resurse\//,'').replace(/\.html$/,'');
         renderRelatedArticles(slug);
       }
+      // Restore the visitor's previously chosen language across pages/reloads.
+      var _savedLang = null;
+      try { _savedLang = localStorage.getItem('aq_lang'); } catch (e) {}
+      if (_savedLang === 'en' && currentLang !== 'en') setLanguage('en');
     });
