@@ -17,170 +17,205 @@
       return SHOP_BASE;                                            // 3) shop homepage
     }
 
-    // ─── EDIT: PRODUCT DATA ──────────────────────────────────────
-    // To add a product: copy any product object below and change the values.
-    // To remove a product: delete its entire { ... } block.
-    // Fields: id (unique), name, species (trout/sturgeon/catfish),
-    //   range (starter/pregrower/grower/broodstock), size (small/medium/large),
-    //   desc, longDesc, comp, benefits (array), app, pellet, img (URL),
-    //   shopUrl (OPTIONAL — exact Shopify product URL for the buy button)
-    
-    const PRODUCTS = [
-      // ── TROUT — Starter ──
-      { id:"t-s-1", name:"INICIO Plus", species:"trout", range:"starter", size:"small",
-        desc:"Gama INICIO Plus acoperă toate nevoile nutriționale ale salmonidelor în primele stadii de viață.",
-        longDesc:"Gama INICIO Plus acoperă toate nevoile nutriționale ale salmonidelor în primele stadii de viață. Este bazată pe materii prime de calitate superioară și oferă un echilibru optim între energie și proteină, profiluri echilibrate de aminoacizi și acizi grași, vitamine și micronutrienți.<br><br>Mini-pelete extrudate, realizate din ingrediente de înaltă calitate și cu digestibilitate ridicată. Accent deosebit pe stabilitatea nutrițională, prin suplimentarea cu vitamine, ingrediente cu efect imunomodulator și digestibilitate ridicată, pentru a susține creșterea alevinilor.<br><br>Suport suplimentar este oferit prin ingrediente speciale și aditivi precum Bactocell® și B-WYSE™.",
-        protein:"60% - 52%", fat:"14% - 24%",
-        comp:"Raport Proteină brută - Grasimi:<br>0.35mm 60 - 14<br>0.5mm 50 - 15<br>0.8mm 56 - 18<br>1.1mm56 - 18<br>1.5mm 54 - 21<br>2.0mm 52 - 24<br>",
-        benefits:["Supraviețuire ridicată","Creștere uniformă","Digestibilitate excelentă","Apă curată în bazin"],
-        app:"Se administrează din prima zi de hrănire activă.",
-        pellet:"0.35 – 2.0mm",
-        /* EDIT: Product image URL */ img:"images/fish-starter-first-feeding-inicio-plus.webp" },
+    // ─── EDIT: PRODUCT DATA (FAMILY MODEL) ───────────────────────
+    // The catalogue is now organised by FAMILY (gamă). Each family has a
+    // list of `members` (the individual products). A family with a single
+    // member that comes in many pellet sizes can expose a per-size table via
+    // the member's optional `sizes` array. Multi-member families list their
+    // products in the modal.
+    //
+    // Family fields: id, family (display name), species (trout/sturgeon/catfish),
+    //   range (starter/pregrower/grower/broodstock — the growth stage),
+    //   desc (short card text), img, [pelletSpan optional — auto-computed if omitted].
+    // Member fields: id, name, pellet ("3.0 – 8.0mm"), protein, fat, comp,
+    //   benefits[], app, longDesc, [shopUrl], [img], [sizes:[{mm,protein,fat}]].
 
-        { id:"t-s-2", name:"INICIO Plus G", species:"trout", range:"starter", size:"small",
-        desc:"Hrană granulată cu conținut ridicat de proteine, pentru alevini mici",
-        longDesc:"Hrana granulată este dezvoltată special pentru alevinii deosebit de mici sau pentru loturile de alevini care au distribuții neuniforme ale dimensiunilor, deoarece se asigură că alevinii mici sunt capabili să se hrănească.<br><br>Accent pe stabilitatea nutrițională cu vitamine sporite și ingrediente imunitare modulante și o digestibilitate ridicată pentru a promova sănătatea și creșterea alevinilor.",
-        protein:"60%", fat:"10%",
-        comp:"Proteină brută: 60%,<br> Grăsimi: 10%",
-        benefits:["Supraviețuire ridicată","Creștere uniformă","Digestibilitate excelentă","Apă curată în bazin"],
-        app:"Se administrează din prima zi de hrănire activă.",
-        pellet:"0.4 – 0.6mm",
-        /* EDIT: Product image URL */ img:"images/FISH - Starter - High Performance - INICIO 1.webp" },
+    const FAMILIES = [
+      // ══ PĂSTRĂV ══
+      { id:"inicio-plus", family:"INICIO Plus", species:"trout", range:"starter",
+        desc:"Gama de start pentru salmonide — mini-pelete extrudate, un singur produs disponibil în mai multe dimensiuni de pelet.",
+        img:"images/fish-starter-first-feeding-inicio-plus.webp",
+        members:[
+          { id:"t-s-1", name:"INICIO Plus", pellet:"0.35 – 2.0mm", protein:"60% - 52%", fat:"14% - 24%",
+            longDesc:"Gama INICIO Plus acoperă toate nevoile nutriționale ale salmonidelor în primele stadii de viață. Este bazată pe materii prime de calitate superioară și oferă un echilibru optim între energie și proteină, profiluri echilibrate de aminoacizi și acizi grași, vitamine și micronutrienți.<br><br>Mini-pelete extrudate, realizate din ingrediente de înaltă calitate și cu digestibilitate ridicată. Accent deosebit pe stabilitatea nutrițională, prin suplimentarea cu vitamine, ingrediente cu efect imunomodulator și digestibilitate ridicată, pentru a susține creșterea alevinilor.<br><br>Suport suplimentar este oferit prin ingrediente speciale și aditivi precum Bactocell® și B-WYSE™.",
+            comp:"Raport Proteină brută - Grăsimi pe dimensiune de pelet (vezi tabelul de mai jos).",
+            benefits:["Supraviețuire ridicată","Creștere uniformă","Digestibilitate excelentă","Apă curată în bazin"],
+            app:"Se administrează din prima zi de hrănire activă.",
+            sizes:[
+              { mm:"0.35", protein:"60%", fat:"14%" },
+              { mm:"0.5",  protein:"50%", fat:"15%" },
+              { mm:"0.8",  protein:"56%", fat:"18%" },
+              { mm:"1.1",  protein:"56%", fat:"18%" },
+              { mm:"1.5",  protein:"54%", fat:"21%" },
+              { mm:"2.0",  protein:"52%", fat:"24%" }
+            ] },
+          { id:"t-s-2", name:"INICIO Plus G", pellet:"0.4 – 0.6mm", protein:"60%", fat:"10%",
+            longDesc:"Hrana granulată este dezvoltată special pentru alevinii deosebit de mici sau pentru loturile de alevini care au distribuții neuniforme ale dimensiunilor, deoarece se asigură că alevinii mici sunt capabili să se hrănească.<br><br>Accent pe stabilitatea nutrițională cu vitamine sporite și ingrediente imunitare modulante și o digestibilitate ridicată pentru a promova sănătatea și creșterea alevinilor.",
+            comp:"Proteină brută: 60%,<br> Grăsimi: 10%",
+            benefits:["Supraviețuire ridicată","Creștere uniformă","Digestibilitate excelentă","Apă curată în bazin"],
+            app:"Se administrează din prima zi de hrănire activă." }
+        ] },
 
-      // ── TROUT — Pre-Grower ──
-      { id:"t-pg-1", name:"INICIO 918", species:"trout", range:"pregrower", size:"medium",
-        desc:"Hrană de transfer pentru juvenili, optimizată pentru conversie alimentară și creștere rapidă.",
-        longDesc:"EFICO Alpha este soluția ideală pentru faza de pre-creștere, acoperind creșterea de la 5g la 50g cu raport optim proteine/energie.",
-        protein:"48% - 46%", fat:"20% - 23%",
-        comp:"Proteină brută: 48% - 46%,<br> Grăsimi: 20% - 23%",
-        benefits:["Conversie alimentară eficientă","Creștere rapidă","Acceptabilitate ridicată","Dezvoltare scheletică sănătoasă"],
-        app:"Pentru juvenili de 3-50g. Temperatura: 4-20°C.",
-        pellet:"1.5 – 2.0mm", img:"images/FISH - Starter - High Performance - INICIO 1.webp",
-        shopUrl:"https://www.shop.aquafeed-biomar.ro/products/furaj-pastrav-extrudat-biomar-inicio-918-1-5mm-25kg" },
+      { id:"inicio-pregrower", family:"INICIO (Pre-creștere)", species:"trout", range:"pregrower",
+        desc:"Furaj de transfer pentru juvenili, optimizat pentru conversie alimentară și creștere rapidă.",
+        img:"images/FISH - Starter - High Performance - INICIO 1.webp",
+        members:[
+          { id:"t-pg-1", name:"INICIO 918", pellet:"1.5 – 2.0mm", protein:"48% - 46%", fat:"20% - 23%",
+            longDesc:"Soluția ideală pentru faza de pre-creștere, acoperind creșterea de la 5g la 50g cu raport optim proteine/energie.",
+            comp:"Proteină brută: 48% - 46%,<br> Grăsimi: 20% - 23%",
+            benefits:["Conversie alimentară eficientă","Creștere rapidă","Acceptabilitate ridicată","Dezvoltare scheletică sănătoasă"],
+            app:"Pentru juvenili de 3-50g. Temperatura: 4-20°C.",
+            shopUrl:"https://www.shop.aquafeed-biomar.ro/products/furaj-pastrav-extrudat-biomar-inicio-918-1-5mm-25kg" },
+          { id:"t-pg-2", name:"INICIO 702", pellet:"2.0mm", protein:"41-44%", fat:"21-24%",
+            longDesc:"Produs dezvoltat special pentru sistemele de recirculare (RAS). Minimizează emisiile de azot și fosfor.",
+            comp:"Proteină brută: 41-44%,<br> Grăsimi: 21-24%",
+            benefits:["Ideal pentru RAS","Emisii reduse N&P","Stabilitate excelentă în apă","Apă curată în sistem"],
+            app:"Pentru sisteme RAS. Juvenili 15-50g." }
+        ] },
 
-      { id:"t-pg-2", name:"INICIO 702", species:"trout", range:"pregrower", size:"medium",
-        desc:"Formulă specializată pentru sisteme RAS, reducând emisiile de nutrienți.",
-        longDesc:"ORBIT este primul produs din industrie dezvoltat special pentru sistemele de recirculare (RAS). Minimizează emisiile de azot și fosfor.",
-        protein:"41-44%", fat:"21-24%",
-        comp:"Proteină brută: 41-44%,<br> Grăsimi: 21-24%",
-        benefits:["Ideal pentru RAS","Emisii reduse N&P","Stabilitate excelentă în apă","Apă curată în sistem"],
-        app:"Pentru sisteme RAS. Juvenili 15-50g.",
-        pellet:"2.0mm", img:"images/FISH - Starter - High Performance - INICIO 1.webp" },
+      { id:"efico-alpha", family:"EFICO Alpha", species:"trout", range:"grower",
+        desc:"Furaje premium de creștere — performanță, pigmentare și calitate superioară a fileului, în mai multe variante.",
+        img:"images/fish-grower-high-performance-efico-alpha.webp",
+        members:[
+          { id:"t-g-1", name:"EFICO Alpha 790", pellet:"3.0 – 8.0mm", protein:"37 - 46%", fat:"26 - 32%",
+            longDesc:"Hrană premium de creștere cu eficiență ridicată, pigmentare excelentă și impact ecologic redus.",
+            comp:"Proteină brută: 37 - 46%,<br> Grăsimi: 26 - 32%",
+            benefits:["Cea mai bună conversie alimentară","Pigmentare excelentă","Impact ecologic redus","Calitate superioară a fileului"],
+            app:"Pentru păstrăv >50g până la recoltare. Temperatura: 4 - 20°C." },
+          { id:"t-g-2", name:"EFICO Alpha 790FT", pellet:"3.0 – 6.0mm", protein:"36 - 41%", fat:"27 - 31%",
+            longDesc:"Hrană de creștere focalizată pe performanță economică și calitatea fileului.",
+            comp:"Proteină brută: 36 - 41%,<br> Grăsimi: 27 - 31%",
+            benefits:["Performanță economică optimă","Calitate bună a fileului","Conversie competitivă","Preț accesibil"],
+            app:"Pentru păstrăv >50g." },
+          { id:"t-g-3", name:"EFICO Alpha 756 — Plutitor", pellet:"3.0 – 8.0mm", protein:"36 - 43%", fat:"22 - 25%",
+            longDesc:"Dietă funcțională pentru sănătatea peștilor, întărind sistemul imunitar. Granulă plutitoare.",
+            comp:"Proteină brută: 36 - 43%,<br> Grăsimi: 22 - 25%",
+            benefits:["Sistem imunitar întărit","Reducerea mortalității","Rezistență la boli","Recuperare rapidă"],
+            app:"Se administrează 2-4 săptămâni înainte/în timpul perioadelor critice." },
+          { id:"t-g-4", name:"EFICO Alpha 717", pellet:"3.0 – 8.0mm", protein:"40 - 43%", fat:"21 - 24%",
+            longDesc:"Dietă funcțională pentru sănătatea peștilor, întărind sistemul imunitar.",
+            comp:"Proteină brută: 40 - 43%,<br> Grăsimi: 21 - 24%",
+            benefits:["Sistem imunitar întărit","Reducerea mortalității","Rezistență la boli","Recuperare rapidă"],
+            app:"Se administrează 2-4 săptămâni înainte/în timpul perioadelor critice." }
+        ] },
 
-      // ── TROUT — Grower ──
-      { id:"t-g-1", name:"EFICO Alpha 790", species:"trout", range:"grower", size:"large",
-        desc:"Hrană premium de creștere cu eficiență ridicată, pigmentare excelentă și impact ecologic redus.",
-        longDesc:"EFICO Enviro 920 este produsul nostru de vârf. Cel mai ridicat nivel de energie, pigmentare uniformă și calitate superioară a fileului.",
-        protein:"37 - 46%", fat:"26 - 32%",
-        comp:"Proteină brută: 37 - 46%,<br> Grăsimi: 26 - 32%",
-        benefits:["Cea mai bună conversie alimentară","Pigmentare excelentă","Impact ecologic redus","Calitate superioară a fileului"],
-        app:"Pentru păstrăv >50g până la recoltare. Temperatura: 4 - 20°C.",
-        pellet:"3.0 – 8.0mm", img:"images/fish-grower-high-performance-efico-alpha.webp" },
+      { id:"efico-enviro", family:"EFICO Enviro", species:"trout", range:"grower",
+        desc:"Furaje de vârf pentru creștere — cel mai ridicat nivel de energie și impact ecologic redus.",
+        img:"images/fish-grower-top-performance-efico-enviro.webp",
+        members:[
+          { id:"t-g-5", name:"EFICO Enviro 920 ADVANCE", pellet:"3.0 – 8.0mm", protein:"38 - 46%", fat:"27 - 34%",
+            longDesc:"Produsul nostru de vârf. Cel mai ridicat nivel de energie, pigmentare uniformă și calitate superioară a fileului.",
+            comp:"Proteină brută: 38 - 46%,<br> Grăsimi: 27 - 34%",
+            benefits:["Cea mai bună conversie alimentară","Pigmentare excelentă","Impact ecologic redus","Calitate superioară a fileului"],
+            app:"Pentru păstrăv >50g până la recoltare." },
+          { id:"t-g-6", name:"EFICO Enviro 921 ADVANCE — Plutitor", pellet:"3.0 – 8.0mm", protein:"42%", fat:"28%",
+            longDesc:"Variantă plutitoare a gamei Enviro, cu ingrediente funcționale brevetate.",
+            comp:"Proteină brută: 42%, Grăsimi: 28%, Cenușă: 6.5%, Fibre: 2.5%, + ingrediente funcționale brevetate",
+            benefits:["Pigmentare excelentă","Impact ecologic redus","Calitate superioară a fileului","Granulă plutitoare"],
+            app:"Pentru păstrăv >50g până la recoltare." }
+        ] },
 
-      { id:"t-g-2", name:"EFICO Alpha 790FT", species:"trout", range:"grower", size:"large",
-        desc:"Hrană de creștere focalizată pe performanță economică și calitatea fileului.",
-        longDesc:"EFICO Focus oferă echilibrul optim între performanța de creștere și costul hrănirii cu calitate excelentă a fileului.",
-        protein:"36 - 41%", fat:"27 - 31%",
-        comp:"Proteină brută: 36 - 41%,<br> Grăsimi: 27 - 31%",
-        benefits:["Performanță economică optimă","Calitate bună a fileului","Conversie competitivă","Preț accesibil"],
-        app:"Pentru păstrăv >50g.",
-        pellet:"3.0 – 6.0mm", img:"images/fish-grower-high-performance-efico-alpha.webp" },
+      { id:"efico-genio", family:"EFICO Genio", species:"trout", range:"broodstock",
+        desc:"Furaj specializat pentru reproducători, formulat pentru calitatea optimă a icrelor.",
+        img:"images/HATCHERY-hatchery-Broodstock-EFICO-Genio 1.webp",
+        members:[
+          { id:"t-b-1", name:"EFICO Genio 991", pellet:"6.0 – 8.0mm", protein:"44%", fat:"22%",
+            longDesc:"Formulat special pentru reproducătorii de păstrăv. Niveluri optime de vitamine, minerale și acizi grași esențiali pentru calitatea superioară a icrelor.",
+            comp:"Proteină brută: 44%, Grăsimi: 22%, Cenușă: 7%, Fibre: 2%, Fosfor: 1%, Vitamine: complex complet",
+            benefits:["Calitate superioară a icrelor","Fertilitate ridicată","Sănătatea reproducătorilor","Nutriție completă"],
+            app:"Pentru reproducători. Frecvența: 2-3 mese/zi. Se administrează 3-6 luni înainte de reproducere." }
+        ] },
 
-      { id:"t-g-3", name:"EFICO Alpha 756 - Plutitor", species:"trout", range:"grower", size:"large",
-        desc:"Dietă funcțională pentru sănătatea peștilor, întărind sistemul imunitar.",
-        longDesc:"SmartCare — diete funcționale pentru susținerea sănătății în momente critice. Ingrediente naturale care stimulează imunitatea și reduc mortalitatea.",
-        protein:"36 - 43%", fat:"22 - 25%",
-        comp:"Proteină brută: 36 - 43%,<br> Grăsimi: 22 - 25%",
-        benefits:["Sistem imunitar întărit","Reducerea mortalității","Rezistență la boli","Recuperare rapidă"],
-        app:"Se administrează 2-4 săptămâni înainte/în timpul perioadelor critice.",
-        pellet:"3.0 – 8mm", img:"images/fish-grower-high-performance-efico-alpha.webp" },
+      // ══ STURION ══
+      { id:"efico-sigma", family:"EFICO Sigma", species:"sturgeon", range:"grower",
+        desc:"Furaj de creștere pentru sturion, optimizat pentru randament și calitatea cărnii.",
+        img:"images/fish-grower-finisher-efico-sigma.webp",
+        members:[
+          { id:"s-g-1", name:"EFICO Sigma 811", pellet:"4.5 – 12mm", protein:"45%", fat:"20%",
+            longDesc:"Susține creștere constantă pe termen lung cu accent pe masa musculară și calitatea cărnii.",
+            comp:"Proteină brută: 45%, Grăsimi: 20%, Cenușă: 7%, Fibre: 2.5%, Fosfor: 1%",
+            benefits:["Creștere pe termen lung","Calitate superioară a cărnii","Masă musculară optimă","Conversie eficientă"],
+            app:"Pentru sturion >200g. Frecvența: 2-4 mese/zi." }
+        ] },
 
-      { id:"t-g-4", name:"EFICO Alpha 717", species:"trout", range:"grower", size:"large",
-        desc:"Dietă funcțională pentru sănătatea peștilor, întărind sistemul imunitar.",
-        longDesc:"SmartCare — diete funcționale pentru susținerea sănătății în momente critice. Ingrediente naturale care stimulează imunitatea și reduc mortalitatea.",
-        protein:"40 - 43%", fat:"21 - 24%",
-        comp:"Proteină brută: 40 - 43%,<br> Grăsimi: 21 - 24%",
-        benefits:["Sistem imunitar întărit","Reducerea mortalității","Rezistență la boli","Recuperare rapidă"],
-        app:"Se administrează 2-4 săptămâni înainte/în timpul perioadelor critice.",
-        pellet:"3.0 – 8mm", img:"images/fish-grower-high-performance-efico-alpha.webp" },
+      { id:"blue-impact", family:"BLUE IMPACT", species:"sturgeon", range:"grower",
+        desc:"Gamă de creștere pentru sturion, axată pe sustenabilitate și performanță.",
+        img:"images/salmon-grower-sustainability-blue-impact.webp",
+        members:[
+          { id:"s-g-2", name:"BLUE IMPACT 8040", pellet:"4.5 – 12mm", protein:"45%", fat:"20%",
+            longDesc:"Susține creștere constantă pe termen lung cu accent pe masa musculară și calitatea cărnii.",
+            comp:"Proteină brută: 45%, Grăsimi: 20%, Cenușă: 7%, Fibre: 2.5%, Fosfor: 1%",
+            benefits:["Creștere pe termen lung","Calitate superioară a cărnii","Masă musculară optimă","Conversie eficientă"],
+            app:"Pentru sturion >200g. Frecvența: 2-4 mese/zi." },
+          { id:"s-g-3", name:"BLUE IMPACT 8041", pellet:"4.5 – 12mm", protein:"45%", fat:"20%",
+            longDesc:"Susține creștere constantă pe termen lung cu accent pe masa musculară și calitatea cărnii.",
+            comp:"Proteină brută: 45%, Grăsimi: 20%, Cenușă: 7%, Fibre: 2.5%, Fosfor: 1%",
+            benefits:["Creștere pe termen lung","Calitate superioară a cărnii","Masă musculară optimă","Conversie eficientă"],
+            app:"Pentru sturion >200g. Frecvența: 2-4 mese/zi." },
+          { id:"s-g-4", name:"BLUE IMPACT 8044", pellet:"4.5 – 12mm", protein:"45%", fat:"20%",
+            longDesc:"Susține creștere constantă pe termen lung cu accent pe masa musculară și calitatea cărnii.",
+            comp:"Proteină brută: 45%, Grăsimi: 20%, Cenușă: 7%, Fibre: 2.5%, Fosfor: 1%",
+            benefits:["Creștere pe termen lung","Calitate superioară a cărnii","Masă musculară optimă","Conversie eficientă"],
+            app:"Pentru sturion >200g. Frecvența: 2-4 mese/zi." }
+        ] },
 
-      { id:"t-g-5", name:"EFICO Enviro 920 ADVANCE", species:"trout", range:"grower", size:"large",
-        desc:"Dietă funcțională pentru sănătatea peștilor, întărind sistemul imunitar.",
-        longDesc:"SmartCare — diete funcționale pentru susținerea sănătății în momente critice. Ingrediente naturale care stimulează imunitatea și reduc mortalitatea.",
-        protein:"38 - 46%", fat:"27 - 34%",
-        comp:"Proteină brută: 38 - 46%,<br> Grăsimi: 27 - 34%",
-        benefits:["Sistem imunitar întărit","Reducerea mortalității","Rezistență la boli","Recuperare rapidă"],
-        app:"Se administrează 2-4 săptămâni înainte/în timpul perioadelor critice.",
-        pellet:"3.0 – 8mm", img:"images/fish-grower-top-performance-efico-enviro.webp" },
-
-      { id:"t-g-6", name:"EFICO Enviro 921 ADVANCE - Plutitor", species:"trout", range:"grower", size:"large",
-        desc:"Dietă funcțională pentru sănătatea peștilor, întărind sistemul imunitar.",
-        longDesc:"SmartCare — diete funcționale pentru susținerea sănătății în momente critice. Ingrediente naturale care stimulează imunitatea și reduc mortalitatea.",
-        protein:"42%", fat:"28%",
-        comp:"Proteină brută: 42%, Grăsimi: 28%, Cenușă: 6.5%, Fibre: 2.5%, + ingrediente funcționale brevetate",
-        benefits:["Sistem imunitar întărit","Reducerea mortalității","Rezistență la boli","Recuperare rapidă"],
-        app:"Se administrează 2-4 săptămâni înainte/în timpul perioadelor critice.",
-        pellet:"3.0 – 8mm", img:"images/fish-grower-top-performance-efico-enviro.webp" },
-
-      // ── TROUT — Broodstock ──
-      { id:"t-b-1", name:"EFICO Genio 991", species:"trout", range:"broodstock", size:"large",
-        desc:"Hrană specializată pentru reproducători, formulată pentru calitatea optimă a icrelor.",
-        longDesc:"Formulat special pentru reproducătorii de păstrăv. Niveluri optime de vitamine, minerale și acizi grași esențiali pentru calitatea superioară a icrelor.",
-        protein:"44%", fat:"22%",
-        comp:"Proteină brută: 44%, Grăsimi: 22%, Cenușă: 7%, Fibre: 2%, Fosfor: 1%, Vitamine: complex complet",
-        benefits:["Calitate superioară a icrelor","Fertilitate ridicată","Sănătatea reproducătorilor","Nutriție completă"],
-        app:"Pentru reproducători. Frecvența: 2-3 mese/zi. Se administrează 3-6 luni înainte de reproducere.",
-        pellet:"6.0 – 8.0mm", img:"images/HATCHERY-hatchery-Broodstock-EFICO-Genio 1.webp" },
-
-      // ── STURGEON ──
-
-      { id:"s-g-1", name:"EFICO Sigma 811", species:"sturgeon", range:"grower", size:"large",
-        desc:"Hrană de creștere pentru sturion, optimizată pentru randament și calitate.",
-        longDesc:"Susține creștere constantă pe termen lung cu accent pe masa musculară și calitatea cărnii.",
-        protein:"45%", fat:"20%",
-        comp:"Proteină brută: 45%, Grăsimi: 20%, Cenușă: 7%, Fibre: 2.5%, Fosfor: 1%",
-        benefits:["Creștere pe termen lung","Calitate superioară a cărnii","Masă musculară optimă","Conversie eficientă"],
-        app:"Pentru sturion >200g. Frecvența: 2-4 mese/zi.",
-        pellet:"4.5 – 12mm", img:"images/fish-grower-finisher-efico-sigma.webp" },
-
-      { id:"s-g-2", name:"BLUE IMPACT 8040", species:"sturgeon", range:"grower", size:"large",
-        desc:"Hrană de creștere pentru sturion, optimizată pentru randament și calitate.",
-        longDesc:"Susține creștere constantă pe termen lung cu accent pe masa musculară și calitatea cărnii.",
-        protein:"45%", fat:"20%",
-        comp:"Proteină brută: 45%, Grăsimi: 20%, Cenușă: 7%, Fibre: 2.5%, Fosfor: 1%",
-        benefits:["Creștere pe termen lung","Calitate superioară a cărnii","Masă musculară optimă","Conversie eficientă"],
-        app:"Pentru sturion >200g. Frecvența: 2-4 mese/zi.",
-        pellet:"4.5 – 12mm", img:"images/salmon-grower-sustainability-blue-impact.webp" },   
-        
-      { id:"s-g-3", name:"BLUE IMPACT 8041", species:"sturgeon", range:"grower", size:"large",
-        desc:"Hrană de creștere pentru sturion, optimizată pentru randament și calitate.",
-        longDesc:"Susține creștere constantă pe termen lung cu accent pe masa musculară și calitatea cărnii.",
-        protein:"45%", fat:"20%",
-        comp:"Proteină brută: 45%, Grăsimi: 20%, Cenușă: 7%, Fibre: 2.5%, Fosfor: 1%",
-        benefits:["Creștere pe termen lung","Calitate superioară a cărnii","Masă musculară optimă","Conversie eficientă"],
-        app:"Pentru sturion >200g. Frecvența: 2-4 mese/zi.",
-        pellet:"4.5 – 12mm", img:"images/salmon-grower-sustainability-blue-impact.webp" },      
-        
-      { id:"s-g-4", name:"BLUE IMPACT 8044", species:"sturgeon", range:"grower", size:"large",
-        desc:"Hrană de creștere pentru sturion, optimizată pentru randament și calitate.",
-        longDesc:"Susține creștere constantă pe termen lung cu accent pe masa musculară și calitatea cărnii.",
-        protein:"45%", fat:"20%",
-        comp:"Proteină brută: 45%, Grăsimi: 20%, Cenușă: 7%, Fibre: 2.5%, Fosfor: 1%",
-        benefits:["Creștere pe termen lung","Calitate superioară a cărnii","Masă musculară optimă","Conversie eficientă"],
-        app:"Pentru sturion >200g. Frecvența: 2-4 mese/zi.",
-        pellet:"4.5 – 12mm", img:"images/salmon-grower-sustainability-blue-impact.webp" },         
-
-      // ── CATFISH ──
-
-      { id:"c-g-1", name:"EFICO 7239F", species:"catfish", range:"grower", size:"large",
-        desc:"Hrană de creștere pentru somn, cu conversie alimentară eficientă.",
-        longDesc:"Granule scufundătoare formulate pentru acceptabilitate maximă și digestibilitate excelentă. Reduce risipirea și costurile.",
-        protein:"40%", fat:"14%",
-        comp:"Proteină brută: 40%, Grăsimi: 14%, Cenușă: 8%, Fibre: 3%, Fosfor: 1.1%",
-        benefits:["Granule scufundătoare","Conversie eficientă","Risipire redusă","Cost optim"],
-        app:"Pentru somn >100g. Frecvența: 2-4 mese/zi.",
-        pellet:"4.5 – 12mm", img:"images/fish-grower-high-performance-efico.webp" },
+      // ══ SOMN ══
+      { id:"efico-catfish", family:"EFICO (Somn)", species:"catfish", range:"grower",
+        desc:"Furaj de creștere pentru somn, cu conversie alimentară eficientă.",
+        img:"images/fish-grower-high-performance-efico.webp",
+        members:[
+          { id:"c-g-1", name:"EFICO 7239F", pellet:"4.5 – 12mm", protein:"40%", fat:"14%",
+            longDesc:"Granule scufundătoare formulate pentru acceptabilitate maximă și digestibilitate excelentă. Reduce risipirea și costurile.",
+            comp:"Proteină brută: 40%, Grăsimi: 14%, Cenușă: 8%, Fibre: 3%, Fosfor: 1.1%",
+            benefits:["Granule scufundătoare","Conversie eficientă","Risipire redusă","Cost optim"],
+            app:"Pentru somn >100g. Frecvența: 2-4 mese/zi." }
+        ] }
     ];
+
+    // ─── Pellet parsing & helpers ────────────────────────────────
+    function fmtMM(n) { return (Math.round(n * 100) / 100).toString(); }
+    function parsePelletRange(s) {
+      var nums = (String(s || '').match(/[0-9]+(\.[0-9]+)?/g) || []).map(parseFloat).filter(function (n) { return !isNaN(n); });
+      if (!nums.length) return { min: 0, max: 0 };
+      return { min: Math.min.apply(null, nums), max: Math.max.apply(null, nums) };
+    }
+    (function precomputeFamilies() {
+      FAMILIES.forEach(function (f) {
+        var mins = [], maxs = [];
+        f.members.forEach(function (m) {
+          var r = parsePelletRange(m.pellet);
+          m._pmin = r.min; m._pmax = r.max;
+          mins.push(r.min); maxs.push(r.max);
+        });
+        f._pmin = Math.min.apply(null, mins);
+        f._pmax = Math.max.apply(null, maxs);
+        if (!f.pelletSpan) {
+          f.pelletSpan = (f._pmin === f._pmax) ? (fmtMM(f._pmin) + 'mm') : (fmtMM(f._pmin) + ' – ' + fmtMM(f._pmax) + 'mm');
+        }
+      });
+    })();
+
+    // Canonical BioMar pellet ladder used to populate the pellet-size filter.
+    var PELLET_LADDER = [0.35, 0.5, 0.8, 1.1, 1.5, 2.0, 3.0, 4.5, 6.0, 8.0, 12.0];
+    function pelletFilterOptions() {
+      return PELLET_LADDER.filter(function (v) {
+        return FAMILIES.some(function (f) { return f.members.some(function (m) { return v >= m._pmin && v <= m._pmax; }); });
+      });
+    }
+    function familyMatchesPellet(f, v) { return f.members.some(function (m) { return v >= m._pmin && v <= m._pmax; }); }
+    function memberMatchesPellet(m, v) { return v >= m._pmin && v <= m._pmax; }
+
+    // Shop URL resolution (member-level URL wins, then range collection, then shop home)
+    function shopForMember(f, m) {
+      if (m && m.shopUrl) return m.shopUrl;
+      if (f && SHOP_COLLECTION_BY_RANGE[f.range]) return SHOP_COLLECTION_BY_RANGE[f.range];
+      return SHOP_BASE;
+    }
+    function shopForFamily(f) {
+      if (f.members.length === 1) return shopForMember(f, f.members[0]);
+      if (SHOP_COLLECTION_BY_RANGE[f.range]) return SHOP_COLLECTION_BY_RANGE[f.range];
+      return SHOP_BASE;
+    }
 
     // ─── Labels & Colors ─────────────────────────────────────────
     var SPECIES = { trout:"Păstrăv", sturgeon:"Sturion", catfish:"Somn" };
@@ -226,121 +261,242 @@
       }
     }
 
-    // ─── Product Filters ─────────────────────────────────────────
+    // ─── Product Filters (family cards) ──────────────────────────
+    function buildPelletFilter() {
+      var sel = document.getElementById('filterPellet');
+      if (!sel) return;
+      var cur = sel.value;
+      var allLabel = (typeof FILTER_ALL_I18N !== 'undefined' && FILTER_ALL_I18N[currentLang]) ? FILTER_ALL_I18N[currentLang] : 'Toate';
+      sel.innerHTML = '<option value="all">' + allLabel + '</option>';
+      pelletFilterOptions().forEach(function (v) {
+        sel.innerHTML += '<option value="' + v + '">' + fmtMM(v) + ' mm</option>';
+      });
+      if (cur) sel.value = cur;
+    }
+
     function filterProducts() {
       if (!document.getElementById('productGrid')) return;
-      const sf = document.getElementById('filterSpecies').value;
-      const rf = document.getElementById('filterRange').value;
-      const szf = document.getElementById('filterSize').value;
-      const q = document.getElementById('filterSearch').value.toLowerCase();
-      const grid = document.getElementById('productGrid');
-      const noRes = document.getElementById('noResults');
+      var sf = document.getElementById('filterSpecies').value;
+      var rf = document.getElementById('filterRange').value;
+      var pelEl = document.getElementById('filterPellet');
+      var pf = pelEl ? pelEl.value : 'all';
+      var q = document.getElementById('filterSearch').value.toLowerCase();
+      var grid = document.getElementById('productGrid');
+      var noRes = document.getElementById('noResults');
+      var pv = (pf !== 'all') ? parseFloat(pf) : null;
 
-      const filtered = PRODUCTS.filter(p => {
-        if (sf !== 'all' && p.species !== sf) return false;
-        if (rf !== 'all' && p.range !== rf) return false;
-        if (szf !== 'all' && p.size !== szf) return false;
-        if (q && !p.name.toLowerCase().includes(q)) return false;
+      var filtered = FAMILIES.filter(function (f) {
+        if (sf !== 'all' && f.species !== sf) return false;
+        if (rf !== 'all' && f.range !== rf) return false;
+        if (pv !== null && !familyMatchesPellet(f, pv)) return false;
+        if (q) {
+          var hit = f.family.toLowerCase().indexOf(q) !== -1 ||
+                    f.members.some(function (m) { return m.name.toLowerCase().indexOf(q) !== -1; });
+          if (!hit) return false;
+        }
         return true;
       });
 
-      if (filtered.length === 0) {
-        grid.innerHTML = '';
-        noRes.style.display = 'block';
-        return;
-      }
+      if (filtered.length === 0) { grid.innerHTML = ''; noRes.style.display = 'block'; return; }
       noRes.style.display = 'none';
 
-      function parseSpec(comp, keyword) {
-        const match = comp.match(new RegExp(keyword + '[:\\s]+([\\d%.,\\s-]+)'));
-        return match ? match[1].trim().replace(/,\s*$/, '') : '—';
-      }
-
-      grid.innerHTML = filtered.map((p, i) => {
-        const protein = p.protein || parseSpec(p.comp, 'Proteină brută');
-        const fat = p.fat || parseSpec(p.comp, 'Grăsimi');
-        return `
-        <div class="card" style="animation:fadeUp .5s ease-out ${Math.min(i*.06,.4)}s both;border-radius:16px">
-          <div style="display:flex;flex-direction:row;min-height:220px">
-            <div style="width:220px;min-width:220px;position:relative;overflow:hidden;border-radius:16px 0 0 16px;background:var(--bg-alt)">
-              <img src="${p.img}" alt="${p.name} — furaj ${SPECIES[p.species]} BioMar" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center">
-            </div>
-            <div style="flex:1;padding:24px 28px;display:flex;flex-direction:column;justify-content:space-between">
-              <div>
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:12px">
-                  <div style="display:flex;gap:6px;flex-wrap:wrap">
-                    <span class="tag" style="background:${RANGE_COLORS[p.range]}18;color:${RANGE_COLORS[p.range]};font-weight:700;padding:5px 14px;border-radius:8px;font-size:12px">${RANGES[p.range]}</span>
-                    <span class="tag" style="background:rgba(26,50,100,.06);color:${SPECIES_COLORS[p.species]};padding:5px 14px;border-radius:8px;font-size:12px">🐟 ${SPECIES[p.species]}</span>
-                  </div>
-                  <div style="display:flex;gap:8px">
-                    <a href="docs/2025-09 RO_Feed Catalogue 2025-PROOF2.pdf" target="_blank" class="btn btn-outline" style="padding:8px 18px;font-size:13px;border-radius:10px" onclick="event.stopPropagation()" title="Descarcă Catalogul de Produse">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                      Descarcă
-                    </a>
-                    <a href="${getShopUrl(p)}" target="_blank" rel="noopener" class="btn btn-sky" style="padding:8px 18px;font-size:13px;border-radius:10px" onclick="event.stopPropagation()" title="Cumpără ${p.name} din magazinul online">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-                      Cumpără Acum
-                    </a>
-                  </div>
-                </div>
-                <h3 style="font-size:22px;font-weight:700;color:var(--dark);margin-bottom:8px;font-family:'Playfair Display',serif">${p.name}</h3>
-                <p style="font-size:14px;color:var(--text-light);line-height:1.7;margin-bottom:16px">${p.desc}</p>
-              </div>
-              <div>
-                <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px">
-                  <div style="flex:1;min-width:120px;background:var(--bg);border:1px solid rgba(26,50,100,.08);border-radius:10px;padding:10px 16px;text-align:center">
-                    <div style="font-size:11px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Dimensiune Pelet</div>
-                    <div style="font-size:15px;font-weight:700;color:var(--dark)">${p.pellet}</div>
-                  </div>
-                  <div style="flex:1;min-width:100px;background:var(--bg);border:1px solid rgba(26,50,100,.08);border-radius:10px;padding:10px 16px;text-align:center">
-                    <div style="font-size:11px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Proteină</div>
-                    <div style="font-size:15px;font-weight:700;color:var(--dark)">${protein}</div>
-                  </div>
-                  <div style="flex:1;min-width:100px;background:var(--bg);border:1px solid rgba(26,50,100,.08);border-radius:10px;padding:10px 16px;text-align:center">
-                    <div style="font-size:11px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Grăsime</div>
-                    <div style="font-size:15px;font-weight:700;color:var(--dark)">${fat}</div>
-                  </div>
-                </div>
-                <div style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--bio-blue)" onclick="openModal('${p.id}')">
-                  Afișează Mai Multe Detalii
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>`;
+      grid.innerHTML = filtered.map(function (f, i) {
+        var count = f.members.length;
+        var ro = currentLang === 'ro';
+        var countLabel = ro ? (count === 1 ? '1 produs' : count + ' produse') : (count === 1 ? '1 product' : count + ' products');
+        var ctaLabel = (count > 1)
+          ? (ro ? 'Vezi produsele din gamă' : 'See products in range')
+          : (ro ? 'Afișează Mai Multe Detalii' : 'Show More Details');
+        var matchBadge = '';
+        if (pv !== null) {
+          var mc = f.members.filter(function (m) { return memberMatchesPellet(m, pv); }).length;
+          matchBadge = '<span style="display:inline-flex;align-items:center;gap:5px;background:rgba(122,184,48,.12);color:#4d7a12;font-weight:700;padding:5px 12px;border-radius:8px;font-size:12px">' +
+            '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7ab830" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' +
+            fmtMM(pv) + 'mm · ' + mc + '/' + count + '</span>';
+        }
+        return '' +
+        '<div class="card" style="animation:fadeUp .5s ease-out ' + Math.min(i * .06, .4) + 's both;border-radius:16px">' +
+          '<div style="display:flex;flex-direction:row;min-height:220px">' +
+            '<div style="width:220px;min-width:220px;position:relative;overflow:hidden;border-radius:16px 0 0 16px;background:var(--bg-alt)">' +
+              '<img src="' + f.img + '" alt="' + f.family + ' — gamă furaje ' + SPECIES[f.species] + ' BioMar" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center">' +
+            '</div>' +
+            '<div style="flex:1;padding:24px 28px;display:flex;flex-direction:column;justify-content:space-between">' +
+              '<div>' +
+                '<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:12px">' +
+                  '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">' +
+                    '<span class="tag" style="background:' + RANGE_COLORS[f.range] + '18;color:' + RANGE_COLORS[f.range] + ';font-weight:700;padding:5px 14px;border-radius:8px;font-size:12px">' + RANGES[f.range] + '</span>' +
+                    '<span class="tag" style="background:rgba(26,50,100,.06);color:' + SPECIES_COLORS[f.species] + ';padding:5px 14px;border-radius:8px;font-size:12px">🐟 ' + SPECIES[f.species] + '</span>' +
+                    matchBadge +
+                  '</div>' +
+                  '<div style="display:flex;gap:8px">' +
+                    '<a href="docs/2025-09 RO_Feed Catalogue 2025-PROOF2.pdf" target="_blank" class="btn btn-outline" style="padding:8px 18px;font-size:13px;border-radius:10px" onclick="event.stopPropagation()" title="Descarcă Catalogul de Produse">' +
+                      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+                      'Descarcă' +
+                    '</a>' +
+                    '<a href="' + shopForFamily(f) + '" target="_blank" rel="noopener" class="btn btn-sky" style="padding:8px 18px;font-size:13px;border-radius:10px" onclick="event.stopPropagation()" title="Cumpără ' + f.family + ' din magazinul online">' +
+                      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>' +
+                      'Cumpără Acum' +
+                    '</a>' +
+                  '</div>' +
+                '</div>' +
+                '<h3 style="font-size:22px;font-weight:700;color:var(--dark);margin-bottom:8px;font-family:\'Playfair Display\',serif">' + f.family + '</h3>' +
+                '<p style="font-size:14px;color:var(--text-light);line-height:1.7;margin-bottom:16px">' + f.desc + '</p>' +
+              '</div>' +
+              '<div>' +
+                '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px">' +
+                  '<div style="flex:1;min-width:120px;background:var(--bg);border:1px solid rgba(26,50,100,.08);border-radius:10px;padding:10px 16px;text-align:center">' +
+                    '<div style="font-size:11px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Dimensiune Pelet</div>' +
+                    '<div style="font-size:15px;font-weight:700;color:var(--dark)">' + f.pelletSpan + '</div>' +
+                  '</div>' +
+                  '<div style="flex:1;min-width:100px;background:var(--bg);border:1px solid rgba(26,50,100,.08);border-radius:10px;padding:10px 16px;text-align:center">' +
+                    '<div style="font-size:11px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Produse</div>' +
+                    '<div style="font-size:15px;font-weight:700;color:var(--dark)">' + countLabel + '</div>' +
+                  '</div>' +
+                '</div>' +
+                '<div style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--bio-blue)" onclick="openFamily(\'' + f.id + '\')">' +
+                  ctaLabel +
+                  '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
       }).join('');
 
       if (window.innerWidth <= 768) {
-        grid.querySelectorAll('.card > div').forEach(row => {
+        grid.querySelectorAll('.card > div').forEach(function (row) {
           row.style.flexDirection = 'column';
-          const imgDiv = row.querySelector('div:first-child');
+          var imgDiv = row.querySelector('div:first-child');
           if (imgDiv) { imgDiv.style.width = '100%'; imgDiv.style.minWidth = '100%'; imgDiv.style.height = '200px'; imgDiv.style.borderRadius = '16px 16px 0 0'; }
         });
       }
     }
-    // ─── Product Modal ───────────────────────────────────────────
-    function openModal(id) {
-      const p = PRODUCTS.find(x => x.id === id);
-      if (!p) return;
-      document.getElementById('modalImg').src = p.img;
-      document.getElementById('modalTitle').textContent = p.name;
+
+    // ─── Product Modal (family → members → detail) ───────────────
+    var MODAL_STATE = { family: null };
+
+    function openFamily(id) {
+      var f = FAMILIES.find(function (x) { return x.id === id; });
+      if (!f) return;
+      MODAL_STATE.family = f;
+      var img = document.getElementById('modalImg');
+      img.src = f.img || (f.members[0] && f.members[0].img) || '';
+      img.alt = f.family;
       document.getElementById('modalTags').innerHTML =
-        `<span class="tag" style="background:rgba(255,255,255,.2);color:#fff;backdrop-filter:blur(6px)">${SPECIES[p.species]}</span>` +
-        `<span class="tag" style="background:rgba(255,255,255,.2);color:#fff;backdrop-filter:blur(6px)">${RANGES[p.range]}</span>`;
-      document.getElementById('modalDesc').innerHTML = p.longDesc;
-      document.getElementById('modalComp').innerHTML = p.comp;
-      document.getElementById('modalApp').innerHTML = p.app;
-      document.getElementById('modalPellet').innerHTML = '<strong>Dimensiune granulă:</strong> ' + p.pellet;
-      document.getElementById('modalBenefits').innerHTML = p.benefits.map(b =>
-        `<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f8fafb;border-radius:12px;border:1px solid rgba(26,50,100,.06)">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7ab830" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          <span style="font-size:14px;color:var(--text);font-weight:500">${b}</span>
-        </div>`).join('');
-      var buyLink = document.getElementById('modalBuyLink');
-      if (buyLink) { buyLink.href = getShopUrl(p); buyLink.title = 'Cumpără ' + p.name + ' din magazinul online'; }
+        '<span class="tag" style="background:rgba(255,255,255,.2);color:#fff;backdrop-filter:blur(6px)">' + SPECIES[f.species] + '</span>' +
+        '<span class="tag" style="background:rgba(255,255,255,.2);color:#fff;backdrop-filter:blur(6px)">' + RANGES[f.range] + '</span>';
+      var pelEl = document.getElementById('filterPellet');
+      var pv = (pelEl && pelEl.value !== 'all') ? parseFloat(pelEl.value) : null;
+      if (f.members.length > 1) { showMemberList(f, pv); }
+      else { showMemberDetail(f, f.members[0], false); }
       document.getElementById('productModal').classList.add('active');
       document.body.style.overflow = 'hidden';
+    }
+
+    function showMemberList(f, pv) {
+      var ro = currentLang === 'ro';
+      document.getElementById('modalTitle').textContent = f.family;
+      document.getElementById('modalDesc').innerHTML = f.desc || '';
+      var back = document.getElementById('modalBack'); if (back) back.style.display = 'none';
+      var detail = document.getElementById('modalDetail'); if (detail) detail.style.display = 'none';
+      var list = document.getElementById('modalMemberList'); if (!list) return;
+      list.style.display = 'block';
+      list.innerHTML =
+        '<h4 style="font-size:13px;font-weight:700;color:var(--bio-blue);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px">' +
+          (ro ? ('Produse în gama ' + f.family) : ('Products in the ' + f.family + ' range')) + '</h4>' +
+        '<div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px">' +
+        f.members.map(function (m) {
+          var match = (pv !== null && memberMatchesPellet(m, pv));
+          var badge = match
+            ? '<span style="display:inline-flex;align-items:center;gap:5px;background:rgba(122,184,48,.12);color:#4d7a12;font-weight:700;padding:4px 10px;border-radius:7px;font-size:12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7ab830" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' + fmtMM(pv) + 'mm</span>'
+            : '';
+          return '<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:#f8fafb;border:1px solid rgba(26,50,100,.08);border-radius:14px;padding:16px 18px' + (match ? ';outline:2px solid rgba(122,184,48,.35)' : '') + '">' +
+              '<div style="flex:1;min-width:180px">' +
+                '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px">' +
+                  '<span style="font-size:16px;font-weight:700;color:var(--dark)">' + m.name + '</span>' + badge +
+                '</div>' +
+                '<div style="font-size:13px;color:var(--text-light)"><strong>' + (ro ? 'Pelet:' : 'Pellet:') + '</strong> ' + m.pellet +
+                  (m.protein ? (' &nbsp;·&nbsp; <strong>' + (ro ? 'Proteină:' : 'Protein:') + '</strong> ' + m.protein) : '') + '</div>' +
+              '</div>' +
+              '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
+                '<button class="btn btn-outline" style="padding:8px 16px;font-size:13px;border-radius:10px" onclick="openMember(\'' + f.id + '\',\'' + m.id + '\')">' +
+                  (ro ? 'Detalii' : 'Details') +
+                  '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>' +
+                '</button>' +
+                '<a href="' + shopForMember(f, m) + '" target="_blank" rel="noopener" class="btn btn-sky" style="padding:8px 16px;font-size:13px;border-radius:10px">' +
+                  '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>' +
+                  (ro ? 'Cumpără' : 'Buy') +
+                '</a>' +
+              '</div>' +
+            '</div>';
+        }).join('') +
+        '</div>';
+    }
+
+    function openMember(fid, mid) {
+      var f = FAMILIES.find(function (x) { return x.id === fid; });
+      if (!f) return;
+      var m = f.members.find(function (x) { return x.id === mid; });
+      if (!m) return;
+      MODAL_STATE.family = f;
+      showMemberDetail(f, m, f.members.length > 1);
+    }
+
+    function renderSizesTable(sizes) {
+      var ro = currentLang === 'ro';
+      var head = '<tr>' +
+        '<th style="text-align:left;padding:8px 12px;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--bio-blue)">' + (ro ? 'Pelet' : 'Pellet') + '</th>' +
+        '<th style="text-align:left;padding:8px 12px;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--bio-blue)">' + (ro ? 'Proteină' : 'Protein') + '</th>' +
+        '<th style="text-align:left;padding:8px 12px;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--bio-blue)">' + (ro ? 'Grăsime' : 'Fat') + '</th>' +
+        '</tr>';
+      var rows = sizes.map(function (s) {
+        return '<tr style="border-top:1px solid rgba(26,50,100,.08)">' +
+          '<td style="padding:8px 12px;font-size:14px;font-weight:700;color:var(--dark)">' + s.mm + ' mm</td>' +
+          '<td style="padding:8px 12px;font-size:14px;color:var(--text)">' + (s.protein || '—') + '</td>' +
+          '<td style="padding:8px 12px;font-size:14px;color:var(--text)">' + (s.fat || '—') + '</td>' +
+        '</tr>';
+      }).join('');
+      return '<h4 style="font-size:13px;font-weight:700;color:var(--bio-blue);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px">' +
+        (ro ? 'Dimensiuni & profil nutrițional' : 'Sizes & nutritional profile') + '</h4>' +
+        '<div style="overflow-x:auto;background:var(--bg-alt);border-radius:16px;padding:8px 8px;margin-bottom:28px">' +
+          '<table style="width:100%;border-collapse:collapse">' + head + rows + '</table>' +
+        '</div>';
+    }
+
+    function showMemberDetail(f, m, canBack) {
+      document.getElementById('modalTitle').textContent = m.name;
+      document.getElementById('modalDesc').innerHTML = m.longDesc || f.longDesc || f.desc || '';
+      document.getElementById('modalComp').innerHTML = m.comp || '';
+      document.getElementById('modalApp').innerHTML = m.app || '';
+      document.getElementById('modalPellet').innerHTML = '<strong>Dimensiune granulă:</strong> ' + m.pellet;
+
+      var sizesEl = document.getElementById('modalSizes');
+      if (sizesEl) {
+        if (m.sizes && m.sizes.length) { sizesEl.style.display = 'block'; sizesEl.innerHTML = renderSizesTable(m.sizes); }
+        else { sizesEl.style.display = 'none'; sizesEl.innerHTML = ''; }
+      }
+
+      document.getElementById('modalBenefits').innerHTML = (m.benefits || []).map(function (b) {
+        return '<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f8fafb;border-radius:12px;border:1px solid rgba(26,50,100,.06)">' +
+          '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7ab830" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' +
+          '<span style="font-size:14px;color:var(--text);font-weight:500">' + b + '</span>' +
+        '</div>';
+      }).join('');
+
+      var buyLink = document.getElementById('modalBuyLink');
+      if (buyLink) { buyLink.href = shopForMember(f, m); buyLink.title = 'Cumpără ' + m.name + ' din magazinul online'; }
+
+      var back = document.getElementById('modalBack');
+      if (back) back.style.display = canBack ? 'inline-flex' : 'none';
+      var list = document.getElementById('modalMemberList'); if (list) list.style.display = 'none';
+      var detail = document.getElementById('modalDetail'); if (detail) detail.style.display = 'block';
+    }
+
+    function modalBack() {
+      if (!MODAL_STATE.family) return;
+      var pelEl = document.getElementById('filterPellet');
+      var pv = (pelEl && pelEl.value !== 'all') ? parseFloat(pelEl.value) : null;
+      showMemberList(MODAL_STATE.family, pv);
     }
 
     function closeModal() {
@@ -695,7 +851,7 @@
         'ctaTitle':'Pregătit să-ți optimizezi ferma?', 'ctaContact':'Contactează Echipa', 'ctaShop':'Cumpără Acum',
         // Products
         'prodTitle':'Catalogul de Produse', 'prodSubtitle':'Explorează gama completă de hrană BioMar disponibilă în România',
-        'filterSpeciesLabel':'Specie', 'filterRangeLabel':'Gamă', 'filterSizeLabel':'Dimensiune', 'filterSearchLabel':'Caută produs',
+        'filterSpeciesLabel':'Specie', 'filterRangeLabel':'Gamă', 'filterSizeLabel':'Dimensiune pelet (mm)', 'filterSearchLabel':'Caută produs',
         'noResults':'Nu s-au găsit produse cu filtrele selectate.',
         // Calculator
         'calcTitle':'Calculator de Hrănire',
@@ -738,7 +894,7 @@
         'photo1':'Clean water, healthy fish', 'photo2':'Ideal natural environment', 'photo3':'Reliable logistics',
         'ctaTitle':'Ready to optimize your farm?', 'ctaContact':'Contact Our Team', 'ctaShop':'Shop Now',
         'prodTitle':'Product Catalogue', 'prodSubtitle':'Explore the full range of BioMar feed available in Romania',
-        'filterSpeciesLabel':'Species', 'filterRangeLabel':'Range', 'filterSizeLabel':'Size', 'filterSearchLabel':'Search product',
+        'filterSpeciesLabel':'Species', 'filterRangeLabel':'Range', 'filterSizeLabel':'Pellet size (mm)', 'filterSearchLabel':'Search product',
         'noResults':'No products match the selected filters.',
         'calcTitle':'Feeding Calculator',
         'calcSubtitle':'BioMar\'s ration calculation tool — embedded here for your convenience.',
@@ -804,11 +960,7 @@
       Object.entries(SPECIES).forEach(function(entry) { speciesSelect.innerHTML += '<option value="' + entry[0] + '">' + entry[1] + '</option>'; });
       speciesSelect.value = currentSpeciesVal;
 
-      var sizeSelect = document.getElementById('filterSize');
-      var currentSizeVal = sizeSelect.value;
-      sizeSelect.innerHTML = '<option value="all">' + FILTER_ALL_I18N[currentLang] + '</option>';
-      Object.entries(SIZES).forEach(function(entry) { sizeSelect.innerHTML += '<option value="' + entry[0] + '">' + entry[1] + '</option>'; });
-      sizeSelect.value = currentSizeVal;
+      buildPelletFilter();
 
       // Update search placeholder
       document.getElementById('filterSearch').placeholder = currentLang === 'ro' ? 'Nume produs...' : 'Product name...';
@@ -888,11 +1040,12 @@
       if (byId('footerYear')) byId('footerYear').textContent = new Date().getFullYear();
       if (byId('filterRange')) { byId('filterRange').innerHTML = '<option value="all">Toate</option>'; Object.entries(RANGES).forEach(function(e){ byId('filterRange').innerHTML += '<option value="'+e[0]+'">'+e[1]+'</option>'; }); }
       if (byId('filterSpecies')) { byId('filterSpecies').innerHTML = '<option value="all">Toate</option>'; Object.entries(SPECIES).forEach(function(e){ byId('filterSpecies').innerHTML += '<option value="'+e[0]+'">'+e[1]+'</option>'; }); }
-      if (byId('filterSize')) { byId('filterSize').innerHTML = '<option value="all">Toate</option>'; Object.entries(SIZES).forEach(function(e){ byId('filterSize').innerHTML += '<option value="'+e[0]+'">'+e[1]+'</option>'; }); }
+      if (byId('filterPellet')) buildPelletFilter();
       if (byId('rangeCards')) buildRangeCards();
       buildResourceCategoryGrid();
       buildFeaturedArticlesGrid();
       if (byId('filterRange')) { var r = new URLSearchParams(window.location.search).get('range'); if (r) byId('filterRange').value = r; }
+      var _famParam = new URLSearchParams(window.location.search).get('family');
       if (byId('langBtnMobile')) {
         if (window.innerWidth <= 768) byId('langBtnMobile').style.display = 'flex';
         window.addEventListener('resize', function(){ byId('langBtnMobile').style.display = window.innerWidth <= 768 ? 'flex' : 'none'; });
@@ -900,6 +1053,7 @@
       bindContactForm();
       setActiveNav();
       if (byId('productGrid')) filterProducts();
+      if (byId('productGrid') && _famParam && typeof openFamily === 'function') { try { openFamily(_famParam); } catch (e) {} }
       if (typeof renderRelatedArticles === 'function' && document.querySelector('[id^="related-"]')) {
         var slug = window.location.pathname.replace(/^.*\/resurse\//,'').replace(/\.html$/,'');
         renderRelatedArticles(slug);
