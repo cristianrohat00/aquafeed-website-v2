@@ -302,12 +302,13 @@
               </div>
               <div><div class="label">Program</div><div style="font-size:15px;color:var(--text);font-weight:500">Luni – Vineri: 08:00 – 17:00</div></div>
             </div>
-            <!-- Google Map -->
-            <div style="border-radius:16px;overflow:hidden;height:240px;margin-top:12px">
-              <iframe src="https://maps.google.com/maps?q=Recea%20305%2C%20Brasov%2C%20Romania&z=15&output=embed"
-                      width="100%" height="100%" style="border:0;display:block"
-                      loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                      title="Locație Aquafeed Distribution"></iframe>
+            <!-- Google Map — consent-gated (loads only after marketing consent or explicit click) -->
+            <div id="aqcMap" class="aqc-map" data-src="https://maps.google.com/maps?q=Recea%20305%2C%20Brasov%2C%20Romania&z=15&output=embed" style="border-radius:16px;overflow:hidden;height:240px;margin-top:12px">
+              <div class="aqc-map-ph">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <p id="aqcMapPhText">Harta Google este dezactivată până accepți cookie-urile de marketing.</p>
+                <button type="button" class="aqc-btn aqc-btn-primary" id="aqcMapLoad">Încarcă harta</button>
+              </div>
             </div>
             </div>
 
@@ -396,6 +397,8 @@
             
             <a href="resurse/index.html" style="font-size:14px" id="flink-resurse">Resurse</a>
             <a href="contact.html" style="font-size:14px" id="flink-contact">Contact</a>
+            <a href="politica-cookies.html" style="font-size:14px" id="flink-cookies">Politica de cookie-uri</a>
+            <a href="#" onclick="openConsentPreferences();return false;" style="font-size:14px" id="flink-cookie-settings">Setări cookies</a>
             <a href="docs/2025-09 RO_Feed Catalogue 2025-PROOF2.pdf" target="_blank" style="font-size:14px;display:flex;align-items:center;gap:6px" id="flink-catalog">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               Catalog Produse (PDF)

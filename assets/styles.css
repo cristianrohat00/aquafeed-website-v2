@@ -263,3 +263,61 @@
 /* multi-page nav anchors */
 a.nav-link{text-decoration:none;display:inline-block}
 a.nav-mobile-link{text-decoration:none;display:block}
+
+/* ═══════════════════ COOKIE CONSENT ═══════════════════ */
+.aqc-banner{position:fixed;left:0;right:0;bottom:0;z-index:10000;background:var(--white);
+  box-shadow:0 -6px 30px rgba(14,31,61,.16);border-top:3px solid var(--sky-blue);
+  transform:translateY(110%);transition:transform .35s ease;padding:18px 20px}
+.aqc-banner.aqc-show{transform:translateY(0)}
+.aqc-banner-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.aqc-banner-text{flex:1;min-width:260px}
+.aqc-banner-text strong{display:block;font-size:16px;color:var(--dark);margin-bottom:4px;font-weight:700}
+.aqc-banner-text p{font-size:13.5px;color:var(--text-light);line-height:1.6;margin:0}
+.aqc-banner-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.aqc-btn{font-family:inherit;font-size:13.5px;font-weight:600;border-radius:10px;padding:11px 20px;
+  cursor:pointer;border:2px solid transparent;transition:all .2s;white-space:nowrap}
+.aqc-btn-primary{background:linear-gradient(135deg,var(--sky-blue),var(--bio-blue));color:#fff}
+.aqc-btn-primary:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.aqc-btn-ghost{background:#fff;color:var(--bio-blue);border-color:rgba(26,50,100,.25)}
+.aqc-btn-ghost:hover{border-color:var(--bio-blue);background:var(--bg-alt)}
+.aqc-modal{position:fixed;inset:0;z-index:10001;background:rgba(14,31,61,.55);
+  display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(3px)}
+.aqc-modal.aqc-show{display:flex}
+.aqc-modal-card{background:#fff;border-radius:18px;max-width:560px;width:100%;max-height:88vh;
+  overflow:auto;box-shadow:0 24px 70px rgba(14,31,61,.4)}
+.aqc-modal-head{display:flex;align-items:center;justify-content:space-between;
+  padding:22px 26px;border-bottom:1px solid var(--bg-alt)}
+.aqc-modal-head h2{font-family:'Playfair Display',serif;font-size:22px;color:var(--dark);margin:0}
+.aqc-x{background:none;border:none;font-size:30px;line-height:1;color:var(--text-light);cursor:pointer;padding:0 4px}
+.aqc-x:hover{color:var(--dark)}
+.aqc-modal-body{padding:10px 26px}
+.aqc-cat{padding:18px 0;border-bottom:1px solid var(--bg-alt)}
+.aqc-cat:last-child{border-bottom:none}
+.aqc-cat-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
+.aqc-cat-head>span:first-child{font-size:15px;font-weight:700;color:var(--dark)}
+.aqc-cat p{font-size:13px;color:var(--text-light);line-height:1.6;margin:0}
+.aqc-always{font-size:12px;font-weight:700;color:var(--accent-green);text-transform:uppercase;letter-spacing:.5px}
+.aqc-switch{position:relative;display:inline-block;width:46px;height:26px;flex-shrink:0}
+.aqc-switch input{opacity:0;width:0;height:0}
+.aqc-slider{position:absolute;inset:0;background:#c7d4e0;border-radius:26px;transition:.25s;cursor:pointer}
+.aqc-slider::before{content:"";position:absolute;height:20px;width:20px;left:3px;top:3px;
+  background:#fff;border-radius:50%;transition:.25s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.aqc-switch input:checked+.aqc-slider{background:var(--sky-blue)}
+.aqc-switch input:checked+.aqc-slider::before{transform:translateX(20px)}
+.aqc-switch input:focus-visible+.aqc-slider{outline:2px solid var(--bio-blue);outline-offset:2px}
+.aqc-modal-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  padding:18px 26px;border-top:1px solid var(--bg-alt);background:var(--bg)}
+.aqc-policy-link{font-size:13px;color:var(--bio-blue);font-weight:600;text-decoration:underline}
+.aqc-foot-btns{display:flex;gap:10px;flex-wrap:wrap}
+@media (max-width:640px){
+  .aqc-banner-actions{width:100%}
+  .aqc-banner-actions .aqc-btn{flex:1;text-align:center}
+  .aqc-modal-foot{flex-direction:column;align-items:stretch}
+  .aqc-foot-btns .aqc-btn{flex:1}
+}
+.aqc-map{position:relative;background:var(--bg-alt)}
+.aqc-map-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:12px;text-align:center;padding:20px;color:var(--text-light)}
+.aqc-map-ph svg{color:var(--sky-blue)}
+.aqc-map-ph p{font-size:13.5px;line-height:1.55;margin:0;max-width:320px;color:var(--text-light)}
+.lang-en{display:none}

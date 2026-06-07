@@ -1,31 +1,203 @@
 
-    // ─── ANALYTICS (launch-ready) ────────────────────────────────
-    // Fill in your IDs to activate. While empty, NOTHING loads — no
-    // errors, no requests. Get the IDs from:
+    // ─── COOKIE CONSENT + ANALYTICS (GDPR / ePrivacy) ────────────
+    // Non-essential tags load ONLY after the visitor opts in via the
+    // consent banner. Fill in your IDs to activate (nothing loads while
+    // empty). Get them from:
     //   GA4:        https://analytics.google.com  (Admin → Data Streams → "G-XXXXXXXXXX")
-    //   Meta Pixel: https://business.facebook.com  (Events Manager → your Pixel ID, digits only)
-    const GA4_MEASUREMENT_ID = '';   // e.g. 'G-XXXXXXXXXX'
-    const META_PIXEL_ID      = '';   // e.g. '123456789012345'
-    (function loadAnalytics() {
-      if (GA4_MEASUREMENT_ID) {
-        var s = document.createElement('script'); s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID;
-        document.head.appendChild(s);
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function () { window.dataLayer.push(arguments); };
-        window.gtag('js', new Date());
-        window.gtag('config', GA4_MEASUREMENT_ID);
+    //   Meta Pixel: https://business.facebook.com  (Events Manager → Pixel ID, digits only)
+    const GA4_MEASUREMENT_ID = '';   // e.g. 'G-XXXXXXXXXX'  (analytics category)
+    const META_PIXEL_ID      = '';   // e.g. '123456789012345' (marketing category)
+    const CONSENT_KEY = 'aq_consent';
+    const CONSENT_VERSION = 1;        // bump to re-prompt every visitor
+    const CONSENT_MAX_AGE_DAYS = 180; // re-prompt after 6 months
+
+    // Google Consent Mode v2 — deny everything BY DEFAULT, before any tag runs.
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { window.dataLayer.push(arguments); }
+    window.gtag = window.gtag || gtag;
+    gtag('consent', 'default', {
+      ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+      analytics_storage: 'denied', functionality_storage: 'granted', security_storage: 'granted',
+      wait_for_update: 500
+    });
+
+    // ── Consent state ──
+    function readConsent() {
+      try {
+        var raw = localStorage.getItem(CONSENT_KEY); if (!raw) return null;
+        var c = JSON.parse(raw);
+        if (c.v !== CONSENT_VERSION) return null;
+        if (c.ts && (Date.now() - c.ts) > CONSENT_MAX_AGE_DAYS * 864e5) return null;
+        return c;
+      } catch (e) { return null; }
+    }
+    function saveConsent(cats) {
+      var c = { v: CONSENT_VERSION, ts: Date.now(), analytics: !!cats.analytics, marketing: !!cats.marketing };
+      try { localStorage.setItem(CONSENT_KEY, JSON.stringify(c)); } catch (e) {}
+      applyConsent(c);
+      return c;
+    }
+
+    // ── Tag loaders (each runs at most once) ──
+    var _ga4Loaded = false, _pixelLoaded = false;
+    function loadGA4() {
+      if (_ga4Loaded || !GA4_MEASUREMENT_ID) return; _ga4Loaded = true;
+      var s = document.createElement('script'); s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID;
+      document.head.appendChild(s);
+      gtag('js', new Date());
+      gtag('config', GA4_MEASUREMENT_ID);
+    }
+    function loadMetaPixel() {
+      if (_pixelLoaded || !META_PIXEL_ID) return; _pixelLoaded = true;
+      !function (f, b, e, v, n, t, s) {
+        if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+        if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = [];
+        t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+      }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      window.fbq('init', META_PIXEL_ID);
+      window.fbq('track', 'PageView');
+    }
+    function applyConsent(c) {
+      gtag('consent', 'update', {
+        analytics_storage: c.analytics ? 'granted' : 'denied',
+        ad_storage: c.marketing ? 'granted' : 'denied',
+        ad_user_data: c.marketing ? 'granted' : 'denied',
+        ad_personalization: c.marketing ? 'granted' : 'denied'
+      });
+      if (c.analytics) loadGA4();
+      if (c.marketing) loadMetaPixel();
+      // Let other widgets react (e.g. the Google Maps click-to-load on contact).
+      try { document.dispatchEvent(new CustomEvent('aq:consent', { detail: c })); } catch (e) {}
+    }
+
+    // ── Consent banner / preferences UI ──
+    const CONSENT_I18N = {
+      ro: {
+        title: 'Acest site folosește cookie-uri',
+        text: 'Folosim cookie-uri strict necesare pentru funcționarea site-ului și, doar cu acordul tău, cookie-uri de analiză și marketing pentru a îmbunătăți experiența și a măsura traficul.',
+        accept: 'Acceptă tot', reject: 'Respinge tot', settings: 'Preferințe', save: 'Salvează preferințele',
+        policy: 'Politica de cookie-uri', prefTitle: 'Preferințe cookie-uri', close: 'Închide',
+        necTitle: 'Strict necesare', always: 'Mereu active',
+        necDesc: 'Esențiale pentru funcționarea site-ului (limba aleasă, acces). Nu pot fi dezactivate și nu necesită consimțământ.',
+        anaTitle: 'Analiză', anaDesc: 'Google Analytics — ne ajută să înțelegem cum este folosit site-ul, în mod anonim agregat.',
+        mktTitle: 'Marketing', mktDesc: 'Meta Pixel și harta Google încorporată — folosite pentru a măsura campaniile și a afișa harta locației.',
+        settingsLink: 'Setări cookies',
+        mapBlocked: 'Harta Google este dezactivată până accepți cookie-urile de marketing.',
+        mapLoad: 'Încarcă harta'
+      },
+      en: {
+        title: 'This website uses cookies',
+        text: 'We use strictly necessary cookies to run the site and, only with your consent, analytics and marketing cookies to improve your experience and measure traffic.',
+        accept: 'Accept all', reject: 'Reject all', settings: 'Preferences', save: 'Save preferences',
+        policy: 'Cookie Policy', prefTitle: 'Cookie preferences', close: 'Close',
+        necTitle: 'Strictly necessary', always: 'Always on',
+        necDesc: 'Essential for the website to work (chosen language, access). They cannot be disabled and require no consent.',
+        anaTitle: 'Analytics', anaDesc: 'Google Analytics — helps us understand how the site is used, in anonymous aggregate form.',
+        mktTitle: 'Marketing', mktDesc: 'Meta Pixel and the embedded Google Map — used to measure campaigns and display the location map.',
+        settingsLink: 'Cookie settings',
+        mapBlocked: 'The Google Map is disabled until you accept marketing cookies.',
+        mapLoad: 'Load map'
       }
-      if (META_PIXEL_ID) {
-        !function (f, b, e, v, n, t, s) {
-          if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
-          if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = [];
-          t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
-        }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-        window.fbq('init', META_PIXEL_ID);
-        window.fbq('track', 'PageView');
-      }
-    })();
+    };
+    function consentLang() { return (typeof currentLang !== 'undefined' && CONSENT_I18N[currentLang]) ? currentLang : 'ro'; }
+    function policyHref() { return (location.pathname.indexOf('/resurse/') !== -1 ? '../' : '') + 'politica-cookies.html'; }
+
+    var _consentBuilt = false;
+    function buildConsentUI() {
+      if (_consentBuilt || !document.body) return; _consentBuilt = true;
+      var wrap = document.createElement('div');
+      wrap.innerHTML =
+        '<div id="aqcBanner" class="aqc-banner" role="dialog" aria-label="Cookie consent" aria-live="polite">' +
+          '<div class="aqc-banner-inner">' +
+            '<div class="aqc-banner-text"><strong id="aqcTitle"></strong><p id="aqcText"></p></div>' +
+            '<div class="aqc-banner-actions">' +
+              '<button type="button" class="aqc-btn aqc-btn-ghost" id="aqcSettings"></button>' +
+              '<button type="button" class="aqc-btn aqc-btn-ghost" id="aqcReject"></button>' +
+              '<button type="button" class="aqc-btn aqc-btn-primary" id="aqcAccept"></button>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div id="aqcModal" class="aqc-modal" role="dialog" aria-modal="true" aria-label="Cookie preferences">' +
+          '<div class="aqc-modal-card">' +
+            '<div class="aqc-modal-head"><h2 id="aqcPrefTitle"></h2><button type="button" class="aqc-x" id="aqcClose" aria-label="Close">&times;</button></div>' +
+            '<div class="aqc-modal-body">' +
+              '<div class="aqc-cat"><div class="aqc-cat-head"><span id="aqcNecTitle"></span><span class="aqc-always" id="aqcAlways"></span></div><p id="aqcNecDesc"></p></div>' +
+              '<div class="aqc-cat"><div class="aqc-cat-head"><span id="aqcAnaTitle"></span><label class="aqc-switch"><input type="checkbox" id="aqcAna"><span class="aqc-slider"></span></label></div><p id="aqcAnaDesc"></p></div>' +
+              '<div class="aqc-cat"><div class="aqc-cat-head"><span id="aqcMktTitle"></span><label class="aqc-switch"><input type="checkbox" id="aqcMkt"><span class="aqc-slider"></span></label></div><p id="aqcMktDesc"></p></div>' +
+            '</div>' +
+            '<div class="aqc-modal-foot"><a href="#" id="aqcModalPolicy" class="aqc-policy-link"></a>' +
+              '<div class="aqc-foot-btns"><button type="button" class="aqc-btn aqc-btn-ghost" id="aqcReject2"></button><button type="button" class="aqc-btn aqc-btn-primary" id="aqcSave"></button></div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      document.body.appendChild(wrap);
+
+      document.getElementById('aqcAccept').addEventListener('click', function () { saveConsent({ analytics: true, marketing: true }); hideBanner(); closeConsentModal(); });
+      function rejectAll() { saveConsent({ analytics: false, marketing: false }); hideBanner(); closeConsentModal(); }
+      document.getElementById('aqcReject').addEventListener('click', rejectAll);
+      document.getElementById('aqcReject2').addEventListener('click', rejectAll);
+      document.getElementById('aqcSettings').addEventListener('click', openConsentPreferences);
+      document.getElementById('aqcClose').addEventListener('click', closeConsentModal);
+      document.getElementById('aqcSave').addEventListener('click', function () {
+        saveConsent({ analytics: document.getElementById('aqcAna').checked, marketing: document.getElementById('aqcMkt').checked });
+        hideBanner(); closeConsentModal();
+      });
+      document.getElementById('aqcModal').addEventListener('click', function (e) { if (e.target === this) closeConsentModal(); });
+      renderConsentTexts();
+    }
+    function renderConsentTexts() {
+      if (!_consentBuilt) return;
+      var t = CONSENT_I18N[consentLang()];
+      var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+      set('aqcTitle', t.title); set('aqcText', t.text);
+      set('aqcSettings', t.settings); set('aqcReject', t.reject); set('aqcAccept', t.accept);
+      set('aqcPrefTitle', t.prefTitle);
+      set('aqcNecTitle', t.necTitle); set('aqcAlways', t.always); set('aqcNecDesc', t.necDesc);
+      set('aqcAnaTitle', t.anaTitle); set('aqcAnaDesc', t.anaDesc);
+      set('aqcMktTitle', t.mktTitle); set('aqcMktDesc', t.mktDesc);
+      set('aqcReject2', t.reject); set('aqcSave', t.save);
+      set('aqcMapPhText', t.mapBlocked); set('aqcMapLoad', t.mapLoad);
+      var pl = document.getElementById('aqcModalPolicy'); if (pl) { pl.textContent = t.policy; pl.href = policyHref(); }
+    }
+    function showBanner() { var b = document.getElementById('aqcBanner'); if (b) b.classList.add('aqc-show'); }
+    function hideBanner() { var b = document.getElementById('aqcBanner'); if (b) b.classList.remove('aqc-show'); }
+    function openConsentPreferences() {
+      buildConsentUI();
+      var c = readConsent() || { analytics: false, marketing: false };
+      document.getElementById('aqcAna').checked = !!c.analytics;
+      document.getElementById('aqcMkt').checked = !!c.marketing;
+      renderConsentTexts();
+      document.getElementById('aqcModal').classList.add('aqc-show');
+    }
+    function closeConsentModal() { var m = document.getElementById('aqcModal'); if (m) m.classList.remove('aqc-show'); }
+
+    // ── Click-to-load for the Google Maps embed (marketing category) ──
+    function loadConsentMap() {
+      var box = document.getElementById('aqcMap'); if (!box || box.dataset.loaded) return;
+      var src = box.getAttribute('data-src'); if (!src) return;
+      box.dataset.loaded = '1';
+      box.innerHTML = '<iframe src="' + src + '" width="100%" height="100%" style="border:0;display:block" ' +
+        'loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Locație Aquafeed Distribution"></iframe>';
+    }
+    function initConsentMap() {
+      var box = document.getElementById('aqcMap'); if (!box) return;
+      var c = readConsent();
+      if (c && c.marketing) { loadConsentMap(); return; }
+      var btn = document.getElementById('aqcMapLoad');
+      if (btn) btn.addEventListener('click', loadConsentMap); // explicit per-embed consent
+      // Auto-load if the visitor later grants marketing consent.
+      document.addEventListener('aq:consent', function (e) { if (e.detail && e.detail.marketing) loadConsentMap(); });
+    }
+
+    function initConsent() {
+      buildConsentUI();
+      var c = readConsent();
+      if (c) { applyConsent(c); } else { showBanner(); }
+      initConsentMap();
+    }
+    // Exposed for the "Setări cookies" footer link.
+    window.openConsentPreferences = openConsentPreferences;
 
     // ─── SHOP LINKING ────────────────────────────────────────────
     // The "Cumpără Acum" buttons link to the Shopify webshop.
@@ -62,6 +234,7 @@
       // ══ PĂSTRĂV ══
       { id:"inicio-plus", family:"INICIO Plus", species:"trout", range:"starter",
         desc:"Gama de start pentru salmonide — mini-pelete extrudate, un singur produs disponibil în mai multe dimensiuni de pelet.",
+        rangeDesc:'<p style="margin:0 0 12px;line-height:1.7">Gama <strong>INICIO Plus</strong> acoperă toate necesitățile nutriționale ale salmonidelor în primele etape de viață. Rețetele sunt dezvoltate pe baza unor materii prime de calitate superioară și asigură un echilibru optim între energie și proteină, profiluri echilibrate de aminoacizi și acizi grași, precum și un aport adecvat de vitamine și micronutrienți.</p><p style="margin:0 0 12px;line-height:1.7">INICIO Plus este actualizată permanent prin integrarea celor mai recente rezultate ale cercetării și dezvoltării în domeniul nutriției peștilor și al furajelor, oferind soluții adaptate cerințelor diferitelor sisteme de creștere și piețe din acvacultură.</p><p style="margin:0 0 12px;line-height:1.7">Furajul este produs sub formă de <strong>microgranule extrudate</strong>, utilizând ingrediente de înaltă calitate și cu digestibilitate ridicată. Formularea INICIO Plus este concepută pentru a asigura o nutriție optimă și o dezvoltare sănătoasă a puietului.</p><p style="margin:0 0 12px;line-height:1.7">Accentul este pus pe stabilitatea nutrițională, prin includerea unui nivel optim de vitamine și ingrediente cu efect de susținere a sistemului imunitar, precum și pe o digestibilitate ridicată care favorizează creșterea și dezvoltarea puietului.</p><p style="margin:0 0 12px;line-height:1.7">Beneficiile produsului sunt completate de ingrediente și aditivi funcționali special selectați, precum <strong>Bactocell®</strong> și <strong>B-WYSE™</strong>, care contribuie la sănătatea și performanța peștilor în primele faze de creștere.</p><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:14px 0 0">Imaginile produselor sunt prezentate cu titlu informativ și pot diferi de aspectul real al ambalajului.</p><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:6px 0 0">Disponibilitatea produselor poate varia în funcție de regiune. Pentru informații suplimentare privind disponibilitatea gamei INICIO Plus în România, vă rugăm să ne contactați.</p>',
         img:"images/fish-starter-first-feeding-inicio-plus.webp",
         members:[
           { id:"t-s-1", name:"INICIO Plus", pellet:"0.35 – 2.0mm", protein:"60% - 52%", fat:"14% - 24%",
@@ -86,6 +259,7 @@
 
       { id:"inicio-pregrower", family:"INICIO (Pre-creștere)", species:"trout", range:"pregrower",
         desc:"Furaj de transfer pentru juvenili, optimizat pentru conversie alimentară și creștere rapidă.",
+        rangeDesc:'<p style="margin:0 0 12px;line-height:1.7">Gama <strong>INICIO</strong> reprezintă o soluție excelentă de furajare, cu un nivel mediu-ridicat de energie, destinată puietului de dimensiuni medii și mari.</p><p style="margin:0 0 12px;line-height:1.7">Portofoliul include rețete atât cu proteine de origine terestră, cât și fără acestea, pentru a răspunde diferitelor preferințe și obiective de producție ale fermierilor.</p><h4 style="font-size:13px;font-weight:700;color:var(--bio-blue);text-transform:uppercase;letter-spacing:.6px;margin:18px 0 10px">Beneficii principale</h4><ul style="margin:0 0 12px;padding-left:20px;line-height:1.7"><li style="margin-bottom:6px">Granule extrudate de înaltă calitate fizică, cu dimensiuni atent calibrate pentru fiecare etapă de creștere.</li><li style="margin-bottom:6px">Stabilitate nutrițională ridicată, pentru o alimentație constantă și eficientă.</li><li style="margin-bottom:6px">Materii prime atent selecționate, de calitate superioară.</li><li style="margin-bottom:6px">Formulare concepută pentru a susține o creștere sănătoasă și o valorificare eficientă a furajului.</li></ul><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:14px 0 0">Imaginile produselor sunt prezentate cu titlu informativ și pot diferi de aspectul real al ambalajului.</p><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:6px 0 0">Disponibilitatea produselor poate varia în funcție de regiune. Pentru informații suplimentare privind disponibilitatea gamei INICIO în România, vă rugăm să ne contactați.</p>',
         img:"images/FISH - Starter - High Performance - INICIO 1.webp",
         members:[
           { id:"t-pg-1", name:"INICIO 918", pellet:"1.5 – 2.0mm", protein:"48% - 46%", fat:"20% - 23%",
@@ -103,6 +277,7 @@
 
       { id:"efico-alpha", family:"EFICO Alpha", species:"trout", range:"grower",
         desc:"Furaje premium de creștere — performanță, pigmentare și calitate superioară a fileului, în mai multe variante.",
+        rangeDesc:'<p style="margin:0 0 12px;line-height:1.7"><strong>EFICO Alpha</strong> este o gamă versatilă de furaje pentru păstrăv, concepută pentru a oferi performanțe constante într-o varietate de condiții de creștere și sisteme de producție.</p><p style="margin:0 0 12px;line-height:1.7">Rețetele sunt formulate pe baza unui raport optimizat între proteină digestibilă și energie digestibilă, contribuind la o utilizare eficientă a nutrienților și la obținerea unor rezultate constante în fermă.</p><p style="margin:0 0 12px;line-height:1.7">Gama include furaje cu diferite niveluri energetice, permițând alegerea soluției potrivite în funcție de intensitatea producției, condițiile de creștere și obiectivele fiecărei ferme.</p><h4 style="font-size:13px;font-weight:700;color:var(--bio-blue);text-transform:uppercase;letter-spacing:.6px;margin:18px 0 10px">Beneficii principale</h4><ul style="margin:0 0 12px;padding-left:20px;line-height:1.7"><li style="margin-bottom:6px">Gamă flexibilă, adaptată unei varietăți de condiții de creștere.</li><li style="margin-bottom:6px">Disponibilă în mai multe niveluri energetice pentru a răspunde diferitelor strategii de producție.</li><li style="margin-bottom:6px">Susține performanțe constante și o conversie furajeră eficientă.</li><li style="margin-bottom:6px">Valorificare optimă a nutrienților datorită formulărilor echilibrate.</li><li style="margin-bottom:6px">Dezvoltată pe baza conceptului <strong>Performance Concept</strong> BioMar.</li></ul><p style="margin:0 0 12px;line-height:1.7"><strong>EFICO Alpha</strong> reprezintă alegerea ideală pentru fermele care caută un echilibru între performanță, flexibilitate și eficiență economică, indiferent de sistemul de creștere utilizat.</p><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:14px 0 0">Imaginile produselor sunt prezentate cu titlu informativ și pot diferi de aspectul real al ambalajului.</p><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:6px 0 0">Disponibilitatea produselor poate varia în funcție de regiune. Pentru informații suplimentare privind disponibilitatea gamei EFICO Alpha în România, vă rugăm să ne contactați.</p>',
         img:"images/fish-grower-high-performance-efico-alpha.webp",
         members:[
           { id:"t-g-1", name:"EFICO Alpha 790", pellet:"3.0 – 8.0mm", protein:"37 - 46%", fat:"26 - 32%",
@@ -129,6 +304,7 @@
 
       { id:"efico-enviro", family:"EFICO Enviro", species:"trout", range:"grower",
         desc:"Furaje de vârf pentru creștere — cel mai ridicat nivel de energie și impact ecologic redus.",
+        rangeDesc:'<p style="margin:0 0 12px;line-height:1.7"><strong>EFICO Enviro</strong> este o gamă premium de furaje pentru păstrăv, recunoscută pentru performanțele sale ridicate și calitatea superioară a ingredientelor utilizate.</p><p style="margin:0 0 12px;line-height:1.7">Materiile prime sunt atent selecționate pentru a asigura un profil echilibrat de aminoacizi și o digestibilitate ridicată, permițând o valorificare optimă a nutrienților de către pești. Acest lucru contribuie la obținerea unor performanțe superioare de creștere și la reducerea impactului asupra mediului de cultură prin menținerea unei calități mai bune a apei.</p><h4 style="font-size:13px;font-weight:700;color:var(--bio-blue);text-transform:uppercase;letter-spacing:.6px;margin:18px 0 10px">Beneficii principale</h4><ul style="margin:0 0 12px;padding-left:20px;line-height:1.7"><li style="margin-bottom:6px">Furaj premium, echilibrat nutrițional, adaptat cerințelor păstrăvului în faza de creștere.</li><li style="margin-bottom:6px">Digestibilitate ridicată și utilizare eficientă a nutrienților.</li><li style="margin-bottom:6px">Susține performanțe excelente de creștere și o conversie furajeră eficientă.</li><li style="margin-bottom:6px">Contribuie la reducerea încărcării organice a apei și la menținerea unui mediu de creștere mai curat.</li><li style="margin-bottom:6px">Dezvoltat pe baza conceptului <strong>Performance Concept</strong> BioMar.</li></ul><p style="margin:0 0 12px;line-height:1.7"><strong>EFICO Enviro</strong> este alegerea ideală pentru fermele care urmăresc maximizarea performanțelor de producție, menținând în același timp standarde ridicate privind eficiența și gestionarea calității apei.</p><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:14px 0 0">Imaginile produselor sunt prezentate cu titlu informativ și pot diferi de aspectul real al ambalajului.</p><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:6px 0 0">Disponibilitatea produselor poate varia în funcție de regiune. Pentru informații suplimentare privind disponibilitatea gamei EFICO Enviro în România, vă rugăm să ne contactați.</p>',
         img:"images/fish-grower-top-performance-efico-enviro.webp",
         members:[
           { id:"t-g-5", name:"EFICO Enviro 920 ADVANCE", pellet:"3.0 – 8.0mm", protein:"38 - 46%", fat:"27 - 34%",
@@ -145,6 +321,7 @@
 
       { id:"efico-genio", family:"EFICO Genio", species:"trout", range:"broodstock",
         desc:"Furaj specializat pentru reproducători, formulat pentru calitatea optimă a icrelor.",
+        rangeDesc:'<p style="margin:0 0 12px;line-height:1.7"><strong>EFICO Genio</strong> este o gamă de furaje special formulată pentru reproducătorii de păstrăv, destinată obținerii unor icre de înaltă calitate și a unui puiet sănătos și viguros.</p><p style="margin:0 0 12px;line-height:1.7">Rețetele acoperă cerințele nutriționale specifice reproducătorilor pe întreaga perioadă reproductivă, de la maturarea gonadelor până la recuperarea după reproducere. Formularea optimizată include micronutrienți esențiali și ingrediente funcționale care susțin dezvoltarea reproducătorilor și contribuie la obținerea unor rezultate superioare în procesul de reproducere.</p><h4 style="font-size:13px;font-weight:700;color:var(--bio-blue);text-transform:uppercase;letter-spacing:.6px;margin:18px 0 10px">Beneficii principale</h4><ul style="margin:0 0 12px;padding-left:20px;line-height:1.7"><li style="margin-bottom:6px">Conceput special pentru reproducătorii de păstrăv și producția de icre de calitate superioară.</li><li style="margin-bottom:6px">Susține fertilitatea și dezvoltarea optimă a gonadelor.</li><li style="margin-bottom:6px">Contribuie la obținerea unui puiet sănătos, uniform și viguros.</li><li style="margin-bottom:6px">Conține făină de krill, care stimulează apetitul și furnizează astaxantină naturală.</li><li style="margin-bottom:6px">Susține dezvoltarea celulelor ovariene, pigmentarea naturală și performanțele reproductive.</li><li style="margin-bottom:6px">Nivel optimizat de energie digestibilă, precum și profiluri echilibrate de aminoacizi și acizi grași pentru susținerea proceselor reproductive.</li></ul><p style="margin:0 0 12px;line-height:1.7"><strong>EFICO Genio</strong> reprezintă soluția dedicată fermelor care urmăresc maximizarea performanțelor reproductive și obținerea unor generații de puiet de cea mai bună calitate.</p><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:14px 0 0">Imaginile produselor sunt prezentate cu titlu informativ și pot diferi de aspectul real al ambalajului.</p><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:6px 0 0">Disponibilitatea produselor poate varia în funcție de regiune. Pentru informații suplimentare privind disponibilitatea gamei EFICO Genio în România, vă rugăm să ne contactați.</p>',
         img:"images/HATCHERY-hatchery-Broodstock-EFICO-Genio 1.webp",
         members:[
           { id:"t-b-1", name:"EFICO Genio 991", pellet:"6.0 – 8.0mm", protein:"44%", fat:"22%",
@@ -157,6 +334,7 @@
       // ══ STURION ══
       { id:"efico-sigma", family:"EFICO Sigma", species:"sturgeon", range:"grower",
         desc:"Furaj de creștere pentru sturion, optimizat pentru randament și calitatea cărnii.",
+        rangeDesc:'<p style="margin:0 0 12px;line-height:1.7"><strong>EFICO Sigma</strong> este o gamă specializată de furaje pentru sturioni, dezvoltată pentru a răspunde diferitelor obiective de producție, de la creșterea pentru carne până la producția de caviar.</p><p style="margin:0 0 12px;line-height:1.7">Rețetele sunt rezultatul a peste 20 de ani de cercetare și colaborare cu fermieri specializați în creșterea sturionilor, oferind soluții nutriționale adaptate diferitelor specii și categorii de greutate.</p><h4 style="font-size:13px;font-weight:700;color:var(--bio-blue);text-transform:uppercase;letter-spacing:.6px;margin:18px 0 10px">Beneficii principale</h4><ul style="margin:0 0 12px;padding-left:20px;line-height:1.7"><li style="margin-bottom:6px">Furaje specializate pentru producția de carne și caviar.</li><li style="margin-bottom:6px">Include rețete dedicate femelelor mature destinate producției de caviar.</li><li style="margin-bottom:6px">Potrivite atât pentru sisteme recirculante (RAS), cât și pentru ferme cu flux continuu de apă (flow-through).</li><li style="margin-bottom:6px">Adaptate diferitelor condiții climatice și sisteme de producție.</li><li style="margin-bottom:6px">Asigură aportul necesar de micronutrienți pentru dezvoltarea armonioasă a sturionilor în toate etapele de creștere.</li><li style="margin-bottom:6px">Formulare echilibrată pentru valorificarea eficientă a furajului și susținerea performanțelor de creștere.</li><li style="margin-bottom:6px">Contribuie la optimizarea indicelui de conversie furajeră (ICF) și la creșterea eficienței economice a fermei.</li></ul><p style="margin:0 0 12px;line-height:1.7"><strong>EFICO Sigma</strong> oferă soluții nutriționale complete pentru fermele de sturioni care urmăresc performanțe ridicate, eficiență în producție și produse finale de cea mai bună calitate.</p><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:14px 0 0">Imaginile produselor sunt prezentate cu titlu informativ și pot diferi de aspectul real al ambalajului.</p><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:6px 0 0">Disponibilitatea produselor poate varia în funcție de regiune. Pentru informații suplimentare privind disponibilitatea gamei EFICO Sigma în România, vă rugăm să ne contactați.</p>',
         img:"images/fish-grower-finisher-efico-sigma.webp",
         members:[
           { id:"s-g-1", name:"EFICO Sigma 811", pellet:"4.5 – 12mm", protein:"45%", fat:"20%",
@@ -168,6 +346,7 @@
 
       { id:"blue-impact", family:"BLUE IMPACT", species:"sturgeon", range:"grower",
         desc:"Gamă de creștere pentru sturion, axată pe sustenabilitate și performanță.",
+        rangeDesc:'<p style="margin:0 0 12px;line-height:1.7"><strong>Blue Impact</strong> este conceptul global BioMar dedicat dezvoltării unei acvaculturi mai sustenabile și reducerii impactului asupra mediului, fără a compromite performanțele de creștere ale peștilor.</p><p style="margin:0 0 12px;line-height:1.7">Gama este bazată pe utilizarea unor materii prime inovatoare și responsabile, cu o amprentă de carbon redusă, o utilizare mai eficientă a resurselor și o dependență mai mică de ingredientele provenite din pescuitul de captură.</p><h4 style="font-size:13px;font-weight:700;color:var(--bio-blue);text-transform:uppercase;letter-spacing:.6px;margin:18px 0 10px">Beneficii principale</h4><ul style="margin:0 0 12px;padding-left:20px;line-height:1.7"><li style="margin-bottom:6px">Contribuie la reducerea amprentei de carbon asociate producției de pește.</li><li style="margin-bottom:6px">Integrează materii prime circulare și ingrediente provenite din surse sustenabile.</li><li style="margin-bottom:6px">Reduce dependența de resursele marine limitate utilizate tradițional în producția furajelor pentru acvacultură.</li><li style="margin-bottom:6px">Include ingrediente noi și inovatoare care contribuie la îmbunătățirea performanței de sustenabilitate a fermei.</li><li style="margin-bottom:6px">Conține niveluri ridicate de acizi grași Omega-3 și menține un raport optim între acizii grași Omega-6 și Omega-3.</li><li style="margin-bottom:6px">Dezvoltat pe baza rețetei premium <strong>BioMar Power</strong>, asigurând performanțe ridicate de creștere și o conversie furajeră eficientă.</li></ul><p style="margin:0 0 12px;line-height:1.7"><strong>Blue Impact</strong> reprezintă alegerea ideală pentru fermele care urmăresc să combine performanțele productive cu obiectivele de sustenabilitate și responsabilitate față de mediu.</p><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:14px 0 0">Imaginile produselor sunt prezentate cu titlu informativ și pot diferi de aspectul real al ambalajului.</p><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:6px 0 0">Disponibilitatea produselor poate varia în funcție de regiune. Pentru informații suplimentare privind disponibilitatea gamei Blue Impact în România, vă rugăm să ne contactați.</p>',
         img:"images/salmon-grower-sustainability-blue-impact.webp",
         members:[
           { id:"s-g-2", name:"BLUE IMPACT 8040", pellet:"4.5 – 12mm", protein:"45%", fat:"20%",
@@ -424,7 +603,7 @@
     function showMemberList(f, pv) {
       var ro = currentLang === 'ro';
       document.getElementById('modalTitle').textContent = f.family;
-      document.getElementById('modalDesc').innerHTML = f.desc || '';
+      document.getElementById('modalDesc').innerHTML = f.rangeDesc || f.desc || '';
       var back = document.getElementById('modalBack'); if (back) back.style.display = 'none';
       var detail = document.getElementById('modalDetail'); if (detail) detail.style.display = 'none';
       var list = document.getElementById('modalMemberList'); if (!list) return;
@@ -493,7 +672,8 @@
 
     function showMemberDetail(f, m, canBack) {
       document.getElementById('modalTitle').textContent = m.name;
-      document.getElementById('modalDesc').innerHTML = m.longDesc || f.longDesc || f.desc || '';
+      // Single-product ranges (no member list) show the full range description up top.
+      document.getElementById('modalDesc').innerHTML = (!canBack && f.rangeDesc) ? f.rangeDesc : (m.longDesc || f.longDesc || f.desc || '');
       document.getElementById('modalComp').innerHTML = m.comp || '';
       document.getElementById('modalApp').innerHTML = m.app || '';
       document.getElementById('modalPellet').innerHTML = '<strong>Dimensiune granulă:</strong> ' + m.pellet;
@@ -901,6 +1081,7 @@
         'footerLinksTitle':'Linkuri Utile', 'footerRights':'Toate drepturile rezervate.',
         'flink-home':'Acasă', 'flink-products':'Produse', 'flink-calculator':'Calculator Hrănire', 'flink-resurse':'Resurse', 'flink-contact':'Contact',
         'flink-catalog':'Catalog Produse (PDF)', 'ctaCatalogText':'Descarcă Catalogul',
+        'flink-cookies':'Politica de cookie-uri', 'flink-cookie-settings':'Setări cookies',
         'catalogBannerTitle':'Catalogul Complet de Produse BioMar', 'catalogBannerDesc':'Descarcă catalogul PDF cu toate produsele și specificațiile tehnice', 'catalogBannerBtn':'Descarcă Catalogul (PDF)',
       },
       en: {
@@ -940,6 +1121,7 @@
         'footerLinksTitle':'Useful Links', 'footerRights':'All rights reserved.',
         'flink-home':'Home', 'flink-products':'Products', 'flink-calculator':'Feeding Calculator', 'flink-resurse':'Resources', 'flink-contact':'Contact',
         'flink-catalog':'Product Catalogue (PDF)', 'ctaCatalogText':'Download Catalogue',
+        'flink-cookies':'Cookie Policy', 'flink-cookie-settings':'Cookie settings',
         'catalogBannerTitle':'Complete BioMar Product Catalogue', 'catalogBannerDesc':'Download the PDF catalogue with all products and technical specifications', 'catalogBannerBtn':'Download Catalogue (PDF)',
       }
     };
@@ -1005,6 +1187,13 @@
 
       // Re-render products if on products page
       filterProducts();
+
+      // Keep the cookie banner/modal in the chosen language
+      if (typeof renderConsentTexts === 'function') renderConsentTexts();
+
+      // Toggle bilingual content blocks (cookie policy page)
+      document.querySelectorAll('.lang-ro').forEach(function (el) { el.style.display = currentLang === 'ro' ? '' : 'none'; });
+      document.querySelectorAll('.lang-en').forEach(function (el) { el.style.display = currentLang === 'en' ? '' : 'none'; });
     }
 
     function buildRangeCards() {
@@ -1096,4 +1285,7 @@
       var _savedLang = null;
       try { _savedLang = localStorage.getItem('aq_lang'); } catch (e) {}
       if (_savedLang === 'en' && currentLang !== 'en') setLanguage('en');
+
+      // Cookie consent — build banner, restore prior choice (or prompt).
+      initConsent();
     });
