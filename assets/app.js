@@ -264,10 +264,14 @@
         members:[
           { id:"t-pg-1", name:"INICIO 918", pellet:"1.5 – 2.0mm", protein:"48% - 46%", fat:"20% - 23%",
             longDesc:"Soluția ideală pentru faza de pre-creștere, acoperind creșterea de la 5g la 50g cu raport optim proteine/energie.",
-            comp:"Proteină brută: 48% - 46%,<br> Grăsimi: 20% - 23%",
+            comp:"Raport Proteină brută - Grăsimi pe dimensiune de pelet (vezi tabelul de mai jos).",
             benefits:["Conversie alimentară eficientă","Creștere rapidă","Acceptabilitate ridicată","Dezvoltare scheletică sănătoasă"],
             app:"Pentru juvenili de 3-50g. Temperatura: 4-20°C.",
-            shopUrl:"https://www.shop.aquafeed-biomar.ro/products/furaj-pastrav-extrudat-biomar-inicio-918-1-5mm-25kg" },
+            shopUrl:"https://www.shop.aquafeed-biomar.ro/products/furaj-pastrav-extrudat-biomar-inicio-918-1-5mm-25kg",
+            sizes:[
+              { mm:"1.5", protein:"48%", fat:"20%" },
+              { mm:"2.0", protein:"46%", fat:"23%" }
+            ] },
           { id:"t-pg-2", name:"INICIO 702", pellet:"2.0mm", protein:"41-44%", fat:"21-24%",
             longDesc:"Produs dezvoltat special pentru sistemele de recirculare (RAS). Minimizează emisiile de azot și fosfor.",
             comp:"Proteină brută: 41-44%,<br> Grăsimi: 21-24%",
@@ -282,24 +286,46 @@
         members:[
           { id:"t-g-1", name:"EFICO Alpha 790", pellet:"3.0 – 8.0mm", protein:"37 - 46%", fat:"26 - 32%",
             longDesc:"Hrană premium de creștere cu eficiență ridicată, pigmentare excelentă și impact ecologic redus.",
-            comp:"Proteină brută: 37 - 46%,<br> Grăsimi: 26 - 32%",
+            comp:"Raport Proteină brută - Grăsimi pe dimensiune de pelet (vezi tabelul de mai jos).",
             benefits:["Cea mai bună conversie alimentară","Pigmentare excelentă","Impact ecologic redus","Calitate superioară a fileului"],
-            app:"Pentru păstrăv >50g până la recoltare. Temperatura: 4 - 20°C." },
+            app:"Pentru păstrăv >50g până la recoltare. Temperatura: 4 - 20°C.",
+            sizes:[
+              { mm:"3.0", protein:"42-45%", fat:"25-28%" },
+              { mm:"4.5", protein:"42-45%", fat:"25-28%" },
+              { mm:"6.0", protein:"40-43%", fat:"26-29%" },
+              { mm:"8.0", protein:"40-43%", fat:"26-29%" }
+            ] },
           { id:"t-g-2", name:"EFICO Alpha 790FT", pellet:"3.0 – 6.0mm", protein:"36 - 41%", fat:"27 - 31%",
             longDesc:"Hrană de creștere focalizată pe performanță economică și calitatea fileului.",
-            comp:"Proteină brută: 36 - 41%,<br> Grăsimi: 27 - 31%",
+            comp:"Raport Proteină brută - Grăsimi pe dimensiune de pelet (vezi tabelul de mai jos).",
             benefits:["Performanță economică optimă","Calitate bună a fileului","Conversie competitivă","Preț accesibil"],
-            app:"Pentru păstrăv >50g." },
+            app:"Pentru păstrăv >50g.",
+            sizes:[
+              { mm:"3.0", protein:"40-43%", fat:"21-24%" },
+              { mm:"4.5", protein:"40-43%", fat:"21-24%" },
+              { mm:"6.0", protein:"40-43%", fat:"21-24%" }
+            ] },
           { id:"t-g-3", name:"EFICO Alpha 756 — Plutitor", pellet:"3.0 – 8.0mm", protein:"36 - 43%", fat:"22 - 25%",
             longDesc:"Dietă funcțională pentru sănătatea peștilor, întărind sistemul imunitar. Granulă plutitoare.",
-            comp:"Proteină brută: 36 - 43%,<br> Grăsimi: 22 - 25%",
+            comp:"Raport Proteină brută - Grăsimi pe dimensiune de pelet (vezi tabelul de mai jos).",
             benefits:["Sistem imunitar întărit","Reducerea mortalității","Rezistență la boli","Recuperare rapidă"],
-            app:"Se administrează 2-4 săptămâni înainte/în timpul perioadelor critice." },
+            app:"Se administrează 2-4 săptămâni înainte/în timpul perioadelor critice.",
+            sizes:[
+              { mm:"3.0", protein:"43-46%", fat:"26-29%" },
+              { mm:"4.5", protein:"39-42%", fat:"28-31%" },
+              { mm:"6.0", protein:"37-40%", fat:"29-32%" },
+              { mm:"8.0", protein:"37-40%", fat:"29-32%" }
+            ] },
           { id:"t-g-4", name:"EFICO Alpha 717", pellet:"3.0 – 8.0mm", protein:"40 - 43%", fat:"21 - 24%",
             longDesc:"Dietă funcțională pentru sănătatea peștilor, întărind sistemul imunitar.",
-            comp:"Proteină brută: 40 - 43%,<br> Grăsimi: 21 - 24%",
+            comp:"Raport Proteină brută - Grăsimi pe dimensiune de pelet (vezi tabelul de mai jos).",
             benefits:["Sistem imunitar întărit","Reducerea mortalității","Rezistență la boli","Recuperare rapidă"],
-            app:"Se administrează 2-4 săptămâni înainte/în timpul perioadelor critice." }
+            app:"Se administrează 2-4 săptămâni înainte/în timpul perioadelor critice.",
+            sizes:[
+              { mm:"3.0", protein:"40-43%", fat:"22-25%" },
+              { mm:"4.5", protein:"40-43%", fat:"22-25%" },
+              { mm:"6.0", protein:"36-39%", fat:"22-25%" }
+            ] }
         ] },
 
       { id:"efico-enviro", family:"EFICO Enviro", species:"trout", range:"grower",
@@ -309,14 +335,26 @@
         members:[
           { id:"t-g-5", name:"EFICO Enviro 920 ADVANCE", pellet:"3.0 – 8.0mm", protein:"38 - 46%", fat:"27 - 34%",
             longDesc:"Produsul nostru de vârf. Cel mai ridicat nivel de energie, pigmentare uniformă și calitate superioară a fileului.",
-            comp:"Proteină brută: 38 - 46%,<br> Grăsimi: 27 - 34%",
+            comp:"Raport Proteină brută - Grăsimi pe dimensiune de pelet (vezi tabelul de mai jos).",
             benefits:["Cea mai bună conversie alimentară","Pigmentare excelentă","Impact ecologic redus","Calitate superioară a fileului"],
-            app:"Pentru păstrăv >50g până la recoltare." },
+            app:"Pentru păstrăv >50g până la recoltare.",
+            sizes:[
+              { mm:"3.0", protein:"41-44%", fat:"21-24%" },
+              { mm:"4.5", protein:"41-44%", fat:"21-24%" },
+              { mm:"6.0", protein:"41-44%", fat:"21-24%" },
+              { mm:"8.0", protein:"41-44%", fat:"21-24%" }
+            ] },
           { id:"t-g-6", name:"EFICO Enviro 921 ADVANCE — Plutitor", pellet:"3.0 – 8.0mm", protein:"42%", fat:"28%",
             longDesc:"Variantă plutitoare a gamei Enviro, cu ingrediente funcționale brevetate.",
-            comp:"Proteină brută: 42%, Grăsimi: 28%, Cenușă: 6.5%, Fibre: 2.5%, + ingrediente funcționale brevetate",
+            comp:"Raport Proteină brută - Grăsimi pe dimensiune de pelet (vezi tabelul de mai jos).",
             benefits:["Pigmentare excelentă","Impact ecologic redus","Calitate superioară a fileului","Granulă plutitoare"],
-            app:"Pentru păstrăv >50g până la recoltare." }
+            app:"Pentru păstrăv >50g până la recoltare.",
+            sizes:[
+              { mm:"3.0", protein:"43-46%", fat:"27-30%" },
+              { mm:"4.5", protein:"42-45%", fat:"29-32%" },
+              { mm:"6.0", protein:"38-41%", fat:"31-34%" },
+              { mm:"8.0", protein:"38-41%", fat:"31-34%" }
+            ] }
         ] },
 
       { id:"efico-genio", family:"EFICO Genio", species:"trout", range:"broodstock",
