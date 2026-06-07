@@ -168,10 +168,11 @@
       height: 45vh; min-height: 240px; max-height: 380px;
       margin: 0 24px 18px 0; border-radius: 16px; overflow: hidden; position: relative;
       background: linear-gradient(135deg,#dbeafc,#eaf2f8);
-      padding: 18px 16px;
+      padding: 10px;
     }
-    /* contain = whole bag always visible & sharp; top-aligned in its box */
-    .modal-media img { width: 100%; height: 100%; object-fit: contain; object-position: center top; display: block; }
+    /* Product shots are square with side whitespace; cover crops only the white
+       margins so the bag fills the portrait box larger, fully visible. */
+    .modal-media img { width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; }
     .modal-body { overflow-y: auto; max-height: 90vh; padding: 28px 28px 32px; }
     /* Detail / member-list start below the floated image, reclaiming full width */
     #modalDetail, #modalMemberList { clear: left; }
@@ -200,6 +201,7 @@
       .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
       .modal { max-height: 95vh; border-radius: 16px; margin: 10px; overflow-y: auto; }
       .modal-media { float: none; width: 100%; height: 200px; margin: 0 0 16px 0; padding: 16px; }
+      .modal-media img { object-fit: contain; } /* wide/short box on mobile — keep whole bag */
       .modal-body { max-height: none; overflow: visible; }
       #modalDetail, #modalMemberList { clear: none; }
     }
