@@ -290,10 +290,10 @@
             benefits:["Cea mai bună conversie alimentară","Pigmentare excelentă","Impact ecologic redus","Calitate superioară a fileului"],
             app:"Pentru păstrăv >50g până la recoltare. Temperatura: 4 - 20°C.",
             sizes:[
-              { mm:"3.0", protein:"42-45%", fat:"25-28%" },
-              { mm:"4.5", protein:"42-45%", fat:"25-28%" },
-              { mm:"6.0", protein:"40-43%", fat:"26-29%" },
-              { mm:"8.0", protein:"40-43%", fat:"26-29%" }
+              { mm:"3.0", protein:"43-46%", fat:"26-29%" },
+              { mm:"4.5", protein:"39-42%", fat:"28-31%" },
+              { mm:"6.0", protein:"37-40%", fat:"29-32%" },
+              { mm:"8.0", protein:"37-40%", fat:"29-32%" }
             ] },
           { id:"t-g-2", name:"EFICO Alpha 790FT", pellet:"3.0 – 6.0mm", protein:"36 - 41%", fat:"27 - 31%",
             longDesc:"Hrană de creștere focalizată pe performanță economică și calitatea fileului.",
@@ -301,9 +301,9 @@
             benefits:["Performanță economică optimă","Calitate bună a fileului","Conversie competitivă","Preț accesibil"],
             app:"Pentru păstrăv >50g.",
             sizes:[
-              { mm:"3.0", protein:"40-43%", fat:"21-24%" },
-              { mm:"4.5", protein:"40-43%", fat:"21-24%" },
-              { mm:"6.0", protein:"40-43%", fat:"21-24%" }
+              { mm:"3.0", protein:"40-43%", fat:"25-28%" },
+              { mm:"4.5", protein:"38-41%", fat:"26-29%" },
+              { mm:"6.0", protein:"36-39%", fat:"27-30%" }
             ] },
           { id:"t-g-3", name:"EFICO Alpha 756 — Plutitor", pellet:"3.0 – 8.0mm", protein:"36 - 43%", fat:"22 - 25%",
             longDesc:"Dietă funcțională pentru sănătatea peștilor, întărind sistemul imunitar. Granulă plutitoare.",
@@ -311,10 +311,10 @@
             benefits:["Sistem imunitar întărit","Reducerea mortalității","Rezistență la boli","Recuperare rapidă"],
             app:"Se administrează 2-4 săptămâni înainte/în timpul perioadelor critice.",
             sizes:[
-              { mm:"3.0", protein:"43-46%", fat:"26-29%" },
-              { mm:"4.5", protein:"39-42%", fat:"28-31%" },
-              { mm:"6.0", protein:"37-40%", fat:"29-32%" },
-              { mm:"8.0", protein:"37-40%", fat:"29-32%" }
+              { mm:"3.0", protein:"40-43%", fat:"22-25%" },
+              { mm:"4.5", protein:"40-43%", fat:"22-25%" },
+              { mm:"6.0", protein:"36-39%", fat:"22-25%" },
+              { mm:"8.0", protein:"36-39%", fat:"22-25%" }
             ] },
           { id:"t-g-4", name:"EFICO Alpha 717", pellet:"3.0 – 8.0mm", protein:"40 - 43%", fat:"21 - 24%",
             longDesc:"Dietă funcțională pentru sănătatea peștilor, întărind sistemul imunitar.",
@@ -322,9 +322,10 @@
             benefits:["Sistem imunitar întărit","Reducerea mortalității","Rezistență la boli","Recuperare rapidă"],
             app:"Se administrează 2-4 săptămâni înainte/în timpul perioadelor critice.",
             sizes:[
-              { mm:"3.0", protein:"40-43%", fat:"22-25%" },
-              { mm:"4.5", protein:"40-43%", fat:"22-25%" },
-              { mm:"6.0", protein:"36-39%", fat:"22-25%" }
+              { mm:"3.0", protein:"40-43%", fat:"21-24%" },
+              { mm:"4.5", protein:"40-43%", fat:"21-24%" },
+              { mm:"6.0", protein:"40-43%", fat:"21-24%" },
+              { mm:"8.0", protein:"40-43%", fat:"21-24%" }
             ] }
         ] },
 
@@ -339,10 +340,10 @@
             benefits:["Cea mai bună conversie alimentară","Pigmentare excelentă","Impact ecologic redus","Calitate superioară a fileului"],
             app:"Pentru păstrăv >50g până la recoltare.",
             sizes:[
-              { mm:"3.0", protein:"41-44%", fat:"21-24%" },
-              { mm:"4.5", protein:"41-44%", fat:"21-24%" },
-              { mm:"6.0", protein:"41-44%", fat:"21-24%" },
-              { mm:"8.0", protein:"41-44%", fat:"21-24%" }
+              { mm:"3.0", protein:"43-46%", fat:"27-30%" },
+              { mm:"4.5", protein:"42-45%", fat:"29-32%" },
+              { mm:"6.0", protein:"38-41%", fat:"31-34%" },
+              { mm:"8.0", protein:"38-41%", fat:"31-34%" }
             ] },
           { id:"t-g-6", name:"EFICO Enviro 921 ADVANCE — Plutitor", pellet:"3.0 – 8.0mm", protein:"42%", fat:"28%",
             longDesc:"Variantă plutitoare a gamei Enviro, cu ingrediente funcționale brevetate.",
@@ -350,10 +351,9 @@
             benefits:["Pigmentare excelentă","Impact ecologic redus","Calitate superioară a fileului","Granulă plutitoare"],
             app:"Pentru păstrăv >50g până la recoltare.",
             sizes:[
-              { mm:"3.0", protein:"43-46%", fat:"27-30%" },
-              { mm:"4.5", protein:"42-45%", fat:"29-32%" },
-              { mm:"6.0", protein:"38-41%", fat:"31-34%" },
-              { mm:"8.0", protein:"38-41%", fat:"31-34%" }
+              { mm:"3.0", protein:"42-45%", fat:"25-28%" },
+              { mm:"4.5", protein:"42-45%", fat:"25-28%" },
+              { mm:"6.0", protein:"40-43%", fat:"26-29%" }
             ] }
         ] },
 
@@ -364,7 +364,7 @@
         members:[
           { id:"t-b-1", name:"EFICO Genio 991", pellet:"6.0 – 8.0mm", protein:"44%", fat:"22%",
             longDesc:"Formulat special pentru reproducătorii de păstrăv. Niveluri optime de vitamine, minerale și acizi grași esențiali pentru calitatea superioară a icrelor.",
-            comp:"Proteină brută: 44%, Grăsimi: 22%, Cenușă: 7%, Fibre: 2%, Fosfor: 1%, Vitamine: complex complet",
+            comp:"Proteină brută: 48%, Grăsimi: 15%",
             benefits:["Calitate superioară a icrelor","Fertilitate ridicată","Sănătatea reproducătorilor","Nutriție completă"],
             app:"Pentru reproducători. Frecvența: 2-3 mese/zi. Se administrează 3-6 luni înainte de reproducere." }
         ] },
