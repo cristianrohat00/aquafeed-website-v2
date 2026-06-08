@@ -2,8 +2,8 @@
 deployment:
   tasks:
     # Copy top-level files (including .htaccess) into the web root, overwriting.
-    - /bin/cp -f index.html produse.html calculator-hranire.html contact.html politica-cookies.html robots.txt sitemap.xml favicon.ico .htaccess "$HOME/public_html/"
+    - /bin/cp -f index.html produse.html calculator-hranire.html contact.html politica-cookies.html robots.txt sitemap.xml favicon.ico .htaccess /home/aquafeed/public_html/
     # Refresh asset folders cleanly (remove then re-copy so deletions inside them propagate).
     # Scoped to our own folders, so cPanel dirs like .well-known / cgi-bin are untouched.
-    - /bin/rm -rf "$HOME/public_html/assets" "$HOME/public_html/images" "$HOME/public_html/docs" "$HOME/public_html/resurse"
-    - /bin/cp -R assets images docs resurse "$HOME/public_html/"
+    - /bin/rm -rf /home/aquafeed/public_html/assets /home/aquafeed/public_html/images /home/aquafeed/public_html/docs /home/aquafeed/public_html/resurse
+    - /bin/cp -R assets images docs resurse /home/aquafeed/public_html/
