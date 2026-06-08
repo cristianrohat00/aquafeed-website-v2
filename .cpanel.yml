@@ -1,9 +1,9 @@
 ---
 deployment:
   tasks:
-    # Single command (no cross-line variable): mirror the site into the web root.
-    # Includes .htaccess (dotfiles), excludes repo plumbing and dev/backup files.
-    # No --delete, so it never touches cPanel folders like .well-known (SSL) / cgi-bin.
-    # PRIMARY domain -> $HOME/public_html/. For an ADDON domain whose docroot is a
-    # subfolder, change the target to "$HOME/public_html/aquafeed-biomar.ro/".
-    - /usr/bin/rsync -av --exclude='.git' --exclude='.gitignore' --exclude='.cpanel.yml' --exclude='.vscode' --exclude='archive' --exclude='README.md' --exclude='deploy.zip' ./ "$HOME/public_html/"
+    # Copy top-level files (including .htaccess) into the web root, overwriting.
+    - /bin/cp -f index.html produse.html calculator-hranire.html contact.html politica-cookies.html robots.txt sitemap.xml favicon.ico .htaccess "$HOME/public_html/"
+    # Refresh asset folders cleanly (remove then re-copy so deletions inside them propagate).
+    # Scoped to our own folders, so cPanel dirs like .well-known / cgi-bin are untouched.
+    - /bin/rm -rf "$HOME/public_html/assets" "$HOME/public_html/images" "$HOME/public_html/docs" "$HOME/public_html/resurse"
+    - /bin/cp -R assets images docs resurse "$HOME/public_html/"
