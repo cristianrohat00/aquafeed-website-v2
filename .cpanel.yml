@@ -1,0 +1,10 @@
+---
+deployment:
+  tasks:
+    # Web root for the PRIMARY domain. For an addon/secondary domain whose
+    # document root is a subfolder, change this to e.g. $HOME/public_html/aquafeed-biomar.ro/
+    - export DEPLOYPATH=$HOME/public_html/
+    # Mirror the site into the web root. Includes .htaccess (dotfiles), excludes
+    # the repo plumbing and dev/backup files. No --delete, so it never touches
+    # cPanel-managed folders like .well-known (SSL) or cgi-bin.
+    - /usr/bin/rsync -a --exclude='.git' --exclude='.gitignore' --exclude='.cpanel.yml' --exclude='.vscode' --exclude='archive' --exclude='README.md' --exclude='deploy.zip' ./ "$DEPLOYPATH"
