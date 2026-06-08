@@ -377,13 +377,13 @@
         members:[
           { id:"s-g-1", name:"EFICO Sigma 811", pellet:"4.5 – 12mm", protein:"45%", fat:"20%",
             sizes:[
-              { mm:"4.5",  protein:"45%", fat:"20%" },
-              { mm:"6.0",  protein:"45%", fat:"20%" },
-              { mm:"8.0",  protein:"45%", fat:"20%" },
-              { mm:"12.0", protein:"45%", fat:"20%" }
+              { mm:"4.5",  protein:"46%", fat:"14%" },
+              { mm:"6.0",  protein:"44%", fat:"16%" },
+              { mm:"8.0",  protein:"44%", fat:"16%" },
+              { mm:"12.0", protein:"44%", fat:"16%" }
             ],
             longDesc:"Susține creștere constantă pe termen lung cu accent pe masa musculară și calitatea cărnii.",
-            comp:"Proteină brută: 45%, Grăsimi: 20%, Cenușă: 7%, Fibre: 2.5%, Fosfor: 1%",
+            comp:"Proteină brută: 45%, Grăsimi: 20%",
             benefits:["Creștere pe termen lung","Calitate superioară a cărnii","Masă musculară optimă","Conversie eficientă"],
             app:"Pentru sturion >200g. Frecvența: 2-4 mese/zi." }
         ] },
@@ -395,10 +395,11 @@
         members:[
           { id:"s-g-2", name:"BLUE IMPACT 8040", pellet:"4.5 – 12mm", protein:"45%", fat:"20%",
             sizes:[
-              { mm:"4.5",  protein:"45%", fat:"20%" },
-              { mm:"6.0",  protein:"45%", fat:"20%" },
-              { mm:"8.0",  protein:"45%", fat:"20%" },
-              { mm:"12.0", protein:"45%", fat:"20%" }
+              { mm:"3.0",  protein:"47%", fat:"14%" },
+              { mm:"4.5",  protein:"44%", fat:"16%" },
+              { mm:"6.0",  protein:"43%", fat:"18%" },
+              { mm:"8.0",  protein:"43%", fat:"18%" },
+              { mm:"12.0", protein:"43%", fat:"18%" }
             ],
             longDesc:"Susține creștere constantă pe termen lung cu accent pe masa musculară și calitatea cărnii.",
             comp:"Proteină brută: 45%, Grăsimi: 20%, Cenușă: 7%, Fibre: 2.5%, Fosfor: 1%",
@@ -435,15 +436,14 @@
         members:[
           { id:"c-g-1", name:"EFICO 7239F", pellet:"4.5 – 12mm", protein:"40%", fat:"14%",
             sizes:[
-              { mm:"4.5",  protein:"40%", fat:"14%" },
-              { mm:"6.0",  protein:"40%", fat:"14%" },
-              { mm:"8.0",  protein:"40%", fat:"14%" },
-              { mm:"12.0", protein:"40%", fat:"14%" }
+              { mm:"3.0",  protein:"42%", fat:"12%" },
+              { mm:"4.5",  protein:"42%", fat:"12%" },
+              { mm:"6.0",  protein:"42%", fat:"12%" }
             ],
-            longDesc:"Granule scufundătoare formulate pentru acceptabilitate maximă și digestibilitate excelentă. Reduce risipirea și costurile.",
-            comp:"Proteină brută: 40%, Grăsimi: 14%, Cenușă: 8%, Fibre: 3%, Fosfor: 1.1%",
-            benefits:["Granule scufundătoare","Conversie eficientă","Risipire redusă","Cost optim"],
-            app:"Pentru somn >100g. Frecvența: 2-4 mese/zi." }
+            longDesc:"Furaj plutitor formulat pentru acceptabilitate maximă și digestibilitate excelentă. Reduce risipa și costurile.",
+            comp:"Proteină brută: 42%, Grăsimi: 12%",
+            benefits:["Furaj plutitor","Conversie eficientă","Risipire redusă","Cost optim"],
+            app:"Pentru somn >25g. Frecvența: 2-4 mese/zi." }
         ] }
     ];
 
