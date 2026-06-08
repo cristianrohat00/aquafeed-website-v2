@@ -376,6 +376,12 @@
         img:"images/fish-grower-finisher-efico-sigma.webp",
         members:[
           { id:"s-g-1", name:"EFICO Sigma 811", pellet:"4.5 – 12mm", protein:"45%", fat:"20%",
+            sizes:[
+              { mm:"4.5",  protein:"45%", fat:"20%" },
+              { mm:"6.0",  protein:"45%", fat:"20%" },
+              { mm:"8.0",  protein:"45%", fat:"20%" },
+              { mm:"12.0", protein:"45%", fat:"20%" }
+            ],
             longDesc:"Susține creștere constantă pe termen lung cu accent pe masa musculară și calitatea cărnii.",
             comp:"Proteină brută: 45%, Grăsimi: 20%, Cenușă: 7%, Fibre: 2.5%, Fosfor: 1%",
             benefits:["Creștere pe termen lung","Calitate superioară a cărnii","Masă musculară optimă","Conversie eficientă"],
@@ -388,16 +394,34 @@
         img:"images/salmon-grower-sustainability-blue-impact.webp",
         members:[
           { id:"s-g-2", name:"BLUE IMPACT 8040", pellet:"4.5 – 12mm", protein:"45%", fat:"20%",
+            sizes:[
+              { mm:"4.5",  protein:"45%", fat:"20%" },
+              { mm:"6.0",  protein:"45%", fat:"20%" },
+              { mm:"8.0",  protein:"45%", fat:"20%" },
+              { mm:"12.0", protein:"45%", fat:"20%" }
+            ],
             longDesc:"Susține creștere constantă pe termen lung cu accent pe masa musculară și calitatea cărnii.",
             comp:"Proteină brută: 45%, Grăsimi: 20%, Cenușă: 7%, Fibre: 2.5%, Fosfor: 1%",
             benefits:["Creștere pe termen lung","Calitate superioară a cărnii","Masă musculară optimă","Conversie eficientă"],
             app:"Pentru sturion >200g. Frecvența: 2-4 mese/zi." },
           { id:"s-g-3", name:"BLUE IMPACT 8041", pellet:"4.5 – 12mm", protein:"45%", fat:"20%",
+            sizes:[
+              { mm:"4.5",  protein:"45%", fat:"20%" },
+              { mm:"6.0",  protein:"45%", fat:"20%" },
+              { mm:"8.0",  protein:"45%", fat:"20%" },
+              { mm:"12.0", protein:"45%", fat:"20%" }
+            ],
             longDesc:"Susține creștere constantă pe termen lung cu accent pe masa musculară și calitatea cărnii.",
             comp:"Proteină brută: 45%, Grăsimi: 20%, Cenușă: 7%, Fibre: 2.5%, Fosfor: 1%",
             benefits:["Creștere pe termen lung","Calitate superioară a cărnii","Masă musculară optimă","Conversie eficientă"],
             app:"Pentru sturion >200g. Frecvența: 2-4 mese/zi." },
           { id:"s-g-4", name:"BLUE IMPACT 8044", pellet:"4.5 – 12mm", protein:"45%", fat:"20%",
+            sizes:[
+              { mm:"4.5",  protein:"45%", fat:"20%" },
+              { mm:"6.0",  protein:"45%", fat:"20%" },
+              { mm:"8.0",  protein:"45%", fat:"20%" },
+              { mm:"12.0", protein:"45%", fat:"20%" }
+            ],
             longDesc:"Susține creștere constantă pe termen lung cu accent pe masa musculară și calitatea cărnii.",
             comp:"Proteină brută: 45%, Grăsimi: 20%, Cenușă: 7%, Fibre: 2.5%, Fosfor: 1%",
             benefits:["Creștere pe termen lung","Calitate superioară a cărnii","Masă musculară optimă","Conversie eficientă"],
@@ -410,6 +434,12 @@
         img:"images/fish-grower-high-performance-efico.webp",
         members:[
           { id:"c-g-1", name:"EFICO 7239F", pellet:"4.5 – 12mm", protein:"40%", fat:"14%",
+            sizes:[
+              { mm:"4.5",  protein:"40%", fat:"14%" },
+              { mm:"6.0",  protein:"40%", fat:"14%" },
+              { mm:"8.0",  protein:"40%", fat:"14%" },
+              { mm:"12.0", protein:"40%", fat:"14%" }
+            ],
             longDesc:"Granule scufundătoare formulate pentru acceptabilitate maximă și digestibilitate excelentă. Reduce risipirea și costurile.",
             comp:"Proteină brută: 40%, Grăsimi: 14%, Cenușă: 8%, Fibre: 3%, Fosfor: 1.1%",
             benefits:["Granule scufundătoare","Conversie eficientă","Risipire redusă","Cost optim"],
