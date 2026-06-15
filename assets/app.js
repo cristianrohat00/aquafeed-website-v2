@@ -590,7 +590,7 @@
             fmtMM(pv) + 'mm · ' + mc + '/' + count + '</span>';
         }
         return '' +
-        '<div class="card" style="animation:fadeUp .5s ease-out ' + Math.min(i * .06, .4) + 's both;border-radius:16px">' +
+        '<div class="card" style="animation:fadeUp .5s ease-out ' + Math.min(i * .06, .4) + 's backwards;border-radius:16px">' +
           '<div style="display:flex;flex-direction:row;min-height:220px">' +
             '<div style="width:220px;min-width:220px;position:relative;overflow:hidden;border-radius:16px 0 0 16px;background:var(--bg-alt)">' +
               '<img src="' + f.img + '" alt="' + f.family + ' — gamă furaje ' + SPECIES[f.species] + ' BioMar" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center">' +
