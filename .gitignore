@@ -1,6 +1,7 @@
 
 # Local image backups (originals before compression) — do not commit
 archive/originals-backup/
+images/_src/
 node_modules/
 
 # Local deployment artifact (regenerated on demand)

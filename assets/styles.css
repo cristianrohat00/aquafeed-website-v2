@@ -174,9 +174,9 @@
       background: linear-gradient(135deg,#dbeafc,#eaf2f8);
       padding: 10px;
     }
-    /* Product shots are square with side whitespace; cover crops only the white
-       margins so the bag fills the portrait box larger, fully visible. */
-    .modal-media img { width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; }
+    /* Product shots are square with side whitespace; `contain` shows the whole
+       bag uncropped, centered, matching the source artwork. */
+    .modal-media img { width: 100%; height: 100%; object-fit: contain; object-position: center center; display: block; }
     .modal-body { overflow-y: auto; max-height: 90vh; padding: 28px 28px 32px; }
     /* Detail / member-list start below the floated image, reclaiming full width */
     #modalDetail, #modalMemberList { clear: left; }

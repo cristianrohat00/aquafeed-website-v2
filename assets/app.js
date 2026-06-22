@@ -593,7 +593,7 @@
         '<div class="card" style="animation:fadeUp .5s ease-out ' + Math.min(i * .06, .4) + 's backwards;border-radius:16px">' +
           '<div style="display:flex;flex-direction:row;min-height:220px">' +
             '<div style="width:220px;min-width:220px;position:relative;overflow:hidden;border-radius:16px 0 0 16px;background:var(--bg-alt)">' +
-              '<img src="' + f.img + '" alt="' + f.family + ' — gamă furaje ' + SPECIES[f.species] + ' BioMar" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center">' +
+              '<img src="' + f.img + '" alt="' + f.family + ' — gamă furaje ' + SPECIES[f.species] + ' BioMar" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;object-position:center">' +
             '</div>' +
             '<div style="flex:1;padding:24px 28px;display:flex;flex-direction:column;justify-content:space-between">' +
               '<div>' +
