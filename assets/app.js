@@ -520,9 +520,9 @@
 
     // ─── Navigation ──────────────────────────────────────────────
     var PREFIX = (location.pathname.indexOf('/resurse/') !== -1) ? '../' : '';
-    var PAGE_URLS = { home:PREFIX+'index.html', products:PREFIX+'produse.html', calculator:PREFIX+'calculator-hranire.html', resurse:PREFIX+'resurse/index.html', contact:PREFIX+'contact.html' };
+    var PAGE_URLS = { home:'/', products:PREFIX+'produse.html', calculator:PREFIX+'calculator-hranire.html', resurse:PREFIX+'resurse/index.html', contact:PREFIX+'contact.html' };
     function navigate(page, range) {
-      var url = PAGE_URLS[page] || (PREFIX+'index.html');
+      var url = PAGE_URLS[page] || '/';
       if (page === 'products' && range) url += '?range=' + encodeURIComponent(range);
       window.location.href = url;
     }
