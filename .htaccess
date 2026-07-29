@@ -15,6 +15,10 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RewriteCond %{HTTP_HOST} ^www\.aquafeed-biomar\.ro [NC]
 RewriteRule ^ https://aquafeed-biomar.ro%{REQUEST_URI} [L,R=301]
 
+# ── 2b. Page-specific 301 redirects ─────────────────────────────────
+# Pillar page moved from /resurse/ to site root (top-level money page).
+RewriteRule ^resurse/furaj-pastrav\.html$ /furaj-pastrav.html [L,R=301]
+
 # ── 3. Custom 404 page (optional) ───────────────────────────────────
 # Create /404.html if you want a branded not-found page, then keep this line.
 ErrorDocument 404 /404.html
