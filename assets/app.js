@@ -263,29 +263,29 @@
         img:"images/FISH - Starter - High Performance - INICIO 1.webp",
         members:[
           { id:"t-pg-1", name:"INICIO 918", pellet:"1.5 – 2.0mm", protein:"48% - 46%", fat:"20% - 23%",
-            longDesc:"Soluția ideală pentru faza de pre-creștere, acoperind creșterea de la 5g la 50g cu raport optim proteine/energie.",
+            longDesc:"ALTERNATIVA EFICIENTĂ PENTRU ALEVINI MEDII SPRE MARI<br><br>O alternativă bună de hrana pentru alevini medii – mari, bazată pe materii prime de calitate.<br><br>Conținut ridicat de vitamine antioxidante.<br><br>Calitate bună cu dimensiuni de peleți bine calibrate și absența prafului pentru a promova un mediu acvatic curat și sănătos pentru alevini.",
             comp:"Raport Proteină brută - Grăsimi pe dimensiune de pelet (vezi tabelul de mai jos).",
             benefits:["Conversie alimentară eficientă","Creștere rapidă","Acceptabilitate ridicată","Dezvoltare scheletică sănătoasă"],
-            app:"Pentru juvenili de 3-50g. Temperatura: 4-20°C.",
+            app:"Pentru juvenili de 5-50g.",
             shopUrl:"https://www.shop.aquafeed-biomar.ro/products/furaj-pastrav-extrudat-biomar-inicio-918-1-5mm-25kg",
             sizes:[
               { mm:"1.5", protein:"48%", fat:"20%" },
               { mm:"2.0", protein:"46%", fat:"23%" }
             ] },
           { id:"t-pg-2", name:"INICIO 702", pellet:"2.0mm", protein:"41-44%", fat:"21-24%",
-            longDesc:"Produs dezvoltat special pentru sistemele de recirculare (RAS). Minimizează emisiile de azot și fosfor.",
+            longDesc:"Hrană alternativă pentru alevinii mari în ferme convenționale.<br><br>Calitate bună cu dimensiuni de peleți bine calibrate și absența prafului pentru a promova un mediu acvatic curat și sănătos pentru alevini.",
             comp:"Proteină brută: 41-44%,<br> Grăsimi: 21-24%",
-            benefits:["Ideal pentru RAS","Emisii reduse N&P","Stabilitate excelentă în apă","Apă curată în sistem"],
-            app:"Pentru sisteme RAS. Juvenili 15-50g." }
+            benefits:["Emisii reduse N&P","Stabilitate excelentă în apă","Apă curată în sistem"],
+            app:"Juvenili 15-50g." }
         ] },
 
       { id:"efico-alpha", family:"EFICO Alpha", species:"trout", range:"grower",
-        desc:"Furaje premium de creștere — performanță, pigmentare și calitate superioară a fileului, în mai multe variante.",
+        desc:"O gamă versatilă de furaje, adaptată diferitelor condiții de creștere în acvacultură. Această gamă are un raport optimizat între proteina digestibilă și energia digestibilă, fiind concepută special pentru a asigura performanțe constante de creștere și o rată de conversie a furajului (FCR) optimă.<br><br>Gama include furaje cu diferite niveluri energetice, iar alegerea nivelului optim de energie digestibilă pentru fiecare crescător depinde de intensitatea sistemului de creștere, de configurația fermei și de obiectivele de producție.",
         rangeDesc:'<p style="margin:0 0 12px;line-height:1.7"><strong>EFICO Alpha</strong> este o gamă versatilă de furaje pentru păstrăv, concepută pentru a oferi performanțe constante într-o varietate de condiții de creștere și sisteme de producție.</p><p style="margin:0 0 12px;line-height:1.7">Rețetele sunt formulate pe baza unui raport optimizat între proteină digestibilă și energie digestibilă, contribuind la o utilizare eficientă a nutrienților și la obținerea unor rezultate constante în fermă.</p><p style="margin:0 0 12px;line-height:1.7">Gama include furaje cu diferite niveluri energetice, permițând alegerea soluției potrivite în funcție de intensitatea producției, condițiile de creștere și obiectivele fiecărei ferme.</p><h4 style="font-size:13px;font-weight:700;color:var(--bio-blue);text-transform:uppercase;letter-spacing:.6px;margin:18px 0 10px">Beneficii principale</h4><ul style="margin:0 0 12px;padding-left:20px;line-height:1.7"><li style="margin-bottom:6px">Gamă flexibilă, adaptată unei varietăți de condiții de creștere.</li><li style="margin-bottom:6px">Disponibilă în mai multe niveluri energetice pentru a răspunde diferitelor strategii de producție.</li><li style="margin-bottom:6px">Susține performanțe constante și o conversie furajeră eficientă.</li><li style="margin-bottom:6px">Valorificare optimă a nutrienților datorită formulărilor echilibrate.</li><li style="margin-bottom:6px">Dezvoltată pe baza conceptului <strong>Performance Concept</strong> BioMar.</li></ul><p style="margin:0 0 12px;line-height:1.7"><strong>EFICO Alpha</strong> reprezintă alegerea ideală pentru fermele care caută un echilibru între performanță, flexibilitate și eficiență economică, indiferent de sistemul de creștere utilizat.</p><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:14px 0 0">Imaginile produselor sunt prezentate cu titlu informativ și pot diferi de aspectul real al ambalajului.</p><p style="font-size:12px;font-style:italic;color:var(--text-light);margin:6px 0 0">Disponibilitatea produselor poate varia în funcție de regiune. Pentru informații suplimentare privind disponibilitatea gamei EFICO Alpha în România, vă rugăm să ne contactați.</p>',
         img:"images/fish-grower-high-performance-efico-alpha.webp",
         members:[
           { id:"t-g-1", name:"EFICO Alpha 790", pellet:"3.0 – 8.0mm", protein:"37 - 46%", fat:"26 - 32%",
-            longDesc:"Hrană premium de creștere cu eficiență ridicată, pigmentare excelentă și impact ecologic redus.",
+            longDesc:"Efico Alpha 790 este un furaj cu performanta de top, energie digestibila medie-inalta.<br><br>Include ingrediente de calitate, dintr-o selectie larga de materii prime bine testate, care ofera micronutrienti esentiali si un profil echilibrat de aminoacizi pentru o crestere buna.<br><br>Fecalele sunt solide, ceea ce reprezinta un ajutor pentru biofiltre rezultand o apa mai limpede.",
             comp:"Raport Proteină brută - Grăsimi pe dimensiune de pelet (vezi tabelul de mai jos).",
             benefits:["Cea mai bună conversie alimentară","Pigmentare excelentă","Impact ecologic redus","Calitate superioară a fileului"],
             app:"Pentru păstrăv >50g până la recoltare. Temperatura: 4 - 20°C.",
@@ -296,7 +296,7 @@
               { mm:"8.0", protein:"37-40%", fat:"29-32%" }
             ] },
           { id:"t-g-2", name:"EFICO Alpha 790FT", pellet:"3.0 – 6.0mm", protein:"36 - 41%", fat:"27 - 31%",
-            longDesc:"Hrană de creștere focalizată pe performanță economică și calitatea fileului.",
+            longDesc:"Un furaj versatil si rentabil pentru diferite conditii de ferma.<br><br>Proteine digerabile optimizate si raport de digerabililitate îmbunatatit.<br>Conceput special&nbsp;pentru concentrare pe obtinerea de performante si rate de conversie consecvente.<br>Compozitia nutritiva este adaptata special&nbsp;pentru a sustine cerintele nutritionale ale pastravului.<br>Calitatea fizica ridicata a produsului sustine o performanta stabila.<br>Optim pentru utilizare în&nbsp;sisteme „flow-through”.",
             comp:"Raport Proteină brută - Grăsimi pe dimensiune de pelet (vezi tabelul de mai jos).",
             benefits:["Performanță economică optimă","Calitate bună a fileului","Conversie competitivă","Preț accesibil"],
             app:"Pentru păstrăv >50g.",
@@ -306,10 +306,10 @@
               { mm:"6.0", protein:"36-39%", fat:"27-30%" }
             ] },
           { id:"t-g-3", name:"EFICO Alpha 756 — Plutitor", pellet:"3.0 – 8.0mm", protein:"36 - 43%", fat:"22 - 25%",
-            longDesc:"Dietă funcțională pentru sănătatea peștilor, întărind sistemul imunitar. Granulă plutitoare.",
+            longDesc:"Furajul plutitor Efico Alpha 756 permite vizual fermierilor sa vada cantitatea de furaj neconsumat.<br><br>Simplifica procesul de furajare, rezultand o formare mai usoara a fermierilor.<br><br>Foloseste materii prime selectate pentru a oferi o alternativa de energie medie.",
             comp:"Raport Proteină brută - Grăsimi pe dimensiune de pelet (vezi tabelul de mai jos).",
-            benefits:["Sistem imunitar întărit","Reducerea mortalității","Rezistență la boli","Recuperare rapidă"],
-            app:"Se administrează 2-4 săptămâni înainte/în timpul perioadelor critice.",
+            benefits:["Sistem imunitar întărit","Reducerea mortalității","Rezistență la boli","Performanță economică optimă"],
+            app:"Furaj plutitor pentru păstrăv >50g.",
             sizes:[
               { mm:"3.0", protein:"40-43%", fat:"22-25%" },
               { mm:"4.5", protein:"40-43%", fat:"22-25%" },
@@ -317,10 +317,10 @@
               { mm:"8.0", protein:"36-39%", fat:"22-25%" }
             ] },
           { id:"t-g-4", name:"EFICO Alpha 717", pellet:"3.0 – 8.0mm", protein:"40 - 43%", fat:"21 - 24%",
-            longDesc:"Dietă funcțională pentru sănătatea peștilor, întărind sistemul imunitar.",
+            longDesc:"Efico Alpha 717 este un furaj de calitate superioară, special conceput pentru creșterea păstrăvului, cu un nivel mediu de energie, adaptat cerințelor nutriționale ale peștilor.<br><br>Datorită formulei echilibrate și ingredientelor atent selecționate, contribuie la obținerea unor performanțe constante de creștere și a unei conversii eficiente a furajului.<br><br>Fiind un furaj scufundabil, Efico Alpha 717 reprezintă o soluție practică și economică pentru crescătorii care urmăresc un raport optim între calitate și preț.",
             comp:"Raport Proteină brută - Grăsimi pe dimensiune de pelet (vezi tabelul de mai jos).",
-            benefits:["Sistem imunitar întărit","Reducerea mortalității","Rezistență la boli","Recuperare rapidă"],
-            app:"Se administrează 2-4 săptămâni înainte/în timpul perioadelor critice.",
+            benefits:["Reducerea mortalității","Rezistență la boli","Recuperare rapidă","Performanță economică optimă"],
+            app:"Furaj scufundabil pentru păstrăv >50g.",
             sizes:[
               { mm:"3.0", protein:"40-43%", fat:"21-24%" },
               { mm:"4.5", protein:"40-43%", fat:"21-24%" },
