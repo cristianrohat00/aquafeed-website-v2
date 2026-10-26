@@ -5,7 +5,7 @@
     // empty). Get them from:
     //   GA4:        https://analytics.google.com  (Admin → Data Streams → "G-XXXXXXXXXX")
     //   Meta Pixel: https://business.facebook.com  (Events Manager → Pixel ID, digits only)
-    const GA4_MEASUREMENT_ID = '';   // e.g. 'G-XXXXXXXXXX'  (analytics category)
+    const GA4_MEASUREMENT_ID = 'G-WL80CLNXFE';   // analytics category
     const META_PIXEL_ID      = '';   // e.g. '123456789012345' (marketing category)
     const CONSENT_KEY = 'aq_consent';
     const CONSENT_VERSION = 1;        // bump to re-prompt every visitor
