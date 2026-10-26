@@ -30,8 +30,8 @@
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <link rel="manifest" href="images/site.webmanifest">
-  <link rel="stylesheet" href="assets/fonts.css?v=20260622b">
-  <link rel="stylesheet" href="assets/styles.css?v=20260622b">
+  <link rel="stylesheet" href="assets/fonts.css?v=20261025a">
+  <link rel="stylesheet" href="assets/styles.css?v=20261025a">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -176,14 +176,45 @@
       <div class="hero-wave"><svg viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,64 C360,120 720,0 1080,64 C1260,96 1380,80 1440,72 L1440,120 L0,120Z" fill="currentColor"/></svg></div>
     </section>
 
-    <!-- Intro / internal link to pillar -->
+    <!-- Intro: one "which feed?" block — feed advisor + internal link to the pillar guide -->
     <section style="padding:28px 24px 0">
       <div class="container">
-        <p style="max-width:760px;font-size:15px;color:var(--text-light);line-height:1.7">
-          Nu ești sigur ce produs se potrivește fermei tale? Citește ghidul complet de
-          <a href="furaj-pastrav.html" style="color:var(--bio-blue);font-weight:700;text-decoration:underline">furaj pentru păstrăv</a>,
-          cu recomandări pe etape de creștere, tabele de hrănire și dimensiunea corectă a peletului.
-        </p>
+        <!-- Feed advisor entry point (wizard logic: app.js "FEED ADVISOR") -->
+        <!-- Static guide below is crawlable text; keep it in sync with ADVISOR_PRODUCTS in app.js -->
+        <div class="adv-cta" id="alege-furajul">
+          <div class="adv-cta-head">
+            <div class="adv-cta-text">
+              <h2 class="adv-cta-title" id="advCtaTitle">Nu știi ce furaj să alegi?</h2>
+              <p class="adv-cta-desc" id="advCtaDesc">Răspunde la câteva întrebări despre fermă și îți recomandăm produsul, dimensiunea peletului și o rație orientativă. Sau citește ghidul complet de furaj pentru păstrăv, cu etapele de creștere și tabelele de hrănire.</p>
+            </div>
+            <div class="adv-cta-actions">
+              <button type="button" class="btn btn-primary" onclick="openAdvisor()" aria-haspopup="dialog">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <span id="advCtaBtn">Răspunde la câteva întrebări</span>
+              </button>
+              <a href="furaj-pastrav.html" class="btn btn-outline">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h7a3 3 0 013 3v13a2 2 0 00-2-2H2z"/><path d="M22 4h-7a3 3 0 00-3 3v13a2 2 0 012-2h8z"/></svg>
+                <span id="advCtaGuide">Citește ghidul complet</span>
+              </a>
+            </div>
+          </div>
+          <ul class="adv-guide lang-ro">
+            <li><strong>Păstrăv 0,1–50 g</strong> (alevini și puiet): INICIO Plus (0,1–50 g), INICIO Plus G (0,1–1,5 g, alevini foarte mici sau loturi neuniforme), INICIO 918 (3–50 g), INICIO 702 (15–50 g) — pelet 0,35–2 mm.</li>
+            <li><strong>Păstrăv peste 50 g, sistem RAS:</strong> EFICO Enviro 920 ADVANCE (până la 3000 g), EFICO Alpha 790 (până la 1000 g) — scufundare lentă — și EFICO Enviro 921 ADVANCE (plutitor, până la 1000 g).</li>
+            <li><strong>Păstrăv peste 50 g, flow-through:</strong> EFICO Alpha 790FT (până la 1000 g), EFICO Alpha 717 (până la 3000 g) — scufundare lentă — și EFICO Alpha 756 (plutitor, până la 3000 g).</li>
+            <li><strong>Reproducători de păstrăv (450–3000 g):</strong> EFICO Genio 991F, furaj plutitor, pelet 6–8 mm.</li>
+            <li><strong>Sturion, producția de carne (50–8000 g):</strong> EFICO Sigma 811, pelet 3–8 mm. <strong>Producția de caviar:</strong> BLUE IMPACT 8040 (perioade de creștere scăzută, iarna) și 8041 (perioade de creștere puternică, vara; recomandat pentru RAS), 50–8000 g, pelet 3–9 mm; BLUE IMPACT 8044 (maturarea femelelor și etapele finale ale producției de caviar), 1000–12000 g, pelet 6,5–12 mm.</li>
+            <li><strong>Somn (25–2000 g, apă de 18–30 °C):</strong> EFICO 7239F, furaj plutitor, pelet 3–6 mm.</li>
+          </ul>
+          <ul class="adv-guide lang-en">
+            <li><strong>Trout 0.1–50 g</strong> (fry and fingerlings): INICIO Plus (0.1–50 g), INICIO Plus G (0.1–1.5 g, very small fry or uneven batches), INICIO 918 (3–50 g), INICIO 702 (15–50 g) — 0.35–2 mm pellets.</li>
+            <li><strong>Trout over 50 g, RAS:</strong> EFICO Enviro 920 ADVANCE (up to 3000 g), EFICO Alpha 790 (up to 1000 g) — slow-sinking — and EFICO Enviro 921 ADVANCE (floating, up to 1000 g).</li>
+            <li><strong>Trout over 50 g, flow-through:</strong> EFICO Alpha 790FT (up to 1000 g), EFICO Alpha 717 (up to 3000 g) — slow-sinking — and EFICO Alpha 756 (floating, up to 3000 g).</li>
+            <li><strong>Trout broodstock (450–3000 g):</strong> EFICO Genio 991F, floating feed, 6–8 mm pellets.</li>
+            <li><strong>Sturgeon, meat production (50–8000 g):</strong> EFICO Sigma 811, 3–8 mm pellets. <strong>Caviar production:</strong> BLUE IMPACT 8040 (slow-growth periods, winter) and 8041 (strong-growth periods, summer; recommended for RAS), 50–8000 g, 3–9 mm pellets; BLUE IMPACT 8044 (female maturation and the final stages of caviar production), 1000–12000 g, 6.5–12 mm pellets.</li>
+            <li><strong>Catfish (25–2000 g, water at 18–30 °C):</strong> EFICO 7239F, floating feed, 3–6 mm pellets.</li>
+          </ul>
+        </div>
       </div>
     </section>
 
@@ -261,7 +292,7 @@
         <h4 style="font-size:13px;font-weight:700;color:var(--bio-blue);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px" id="modalBenLabel">Beneficii</h4>
         <div id="modalBenefits" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:28px"></div>
         <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <a class="btn btn-outline" style="flex:1;justify-content:center;min-width:140px;opacity:.5;cursor:default" title="Coming soon">
+          <a id="modalDsLink" class="btn btn-outline" target="_blank" rel="noopener" type="application/pdf" style="flex:1;justify-content:center;min-width:140px">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             <span id="modalDsLabel">Fișă Tehnică</span>
           </a>
@@ -273,6 +304,14 @@
         </div>
         </div>
       </div>
+    </div>
+  </div>
+<div class="modal-overlay" id="advisorModal" onclick="if(event.target===this){closeAdvisor()}">
+    <div class="modal adv-modal" role="dialog" aria-modal="true" aria-label="Alege furajul potrivit">
+      <button class="modal-close" onclick="closeAdvisor()" aria-label="Închide">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-body" id="advisorBody" aria-live="polite"></div>
     </div>
   </div>
 <footer class="footer">
@@ -316,6 +355,6 @@
       </div>
     </div>
   </footer>
-  <script src="assets/app.js?v=20260622b"></script>
+  <script src="assets/app.js?v=20261025a"></script>
 </body>
 </html>

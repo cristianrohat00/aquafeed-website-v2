@@ -1,0 +1,5 @@
+# Product data sheets are BioMar's own PDFs: keep them out of search results so
+# they don't compete with produse.html (links to them are still followed).
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, follow"
+</IfModule>
