@@ -239,7 +239,16 @@
     .adv-res { border: 1px solid rgba(26,50,100,.1); border-radius: 16px; padding: 18px; margin-bottom: 14px; display: grid; grid-template-columns: 96px 1fr; gap: 18px; }
     .adv-res img { width: 96px; height: 96px; object-fit: contain; background: var(--bg-alt); border-radius: 12px; }
     .adv-res h3 { font-size: 19px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+    /* Product-card data-sheet menu (ranges with several products) */
+    .ds-menu { position: relative; }
+    .ds-menu > summary { list-style: none; cursor: pointer; }
+    .ds-menu > summary::-webkit-details-marker { display: none; }
+    .ds-menu-list { position: absolute; right: 0; top: calc(100% + 6px); z-index: 20; min-width: 230px; background: var(--white, #fff); border: 1px solid rgba(26,50,100,.12); border-radius: 12px; box-shadow: 0 10px 30px rgba(26,50,100,.15); padding: 6px; }
+    .ds-menu-list a { display: flex; justify-content: space-between; gap: 12px; padding: 9px 12px; border-radius: 8px; font-size: 14px; font-weight: 600; color: var(--dark); text-decoration: none; }
+    .ds-menu-list a:hover, .ds-menu-list a:focus-visible { background: var(--bg-alt); }
+    .ds-menu-list a span { font-size: 11px; font-weight: 700; color: var(--text-light); }
     .adv-badge { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 2px 8px; }
+    .adv-rec { background: var(--bio-blue); color: #fff; }
     .adv-sink { background: #e3edf8; color: var(--bio-blue); }
     .adv-float { background: #e8f5d6; color: #4a7a12; }
     .adv-why { font-size: 14px; color: var(--text-light); margin-top: 6px; }
