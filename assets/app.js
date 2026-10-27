@@ -1198,7 +1198,7 @@
         'calcDisclaimer':'Acest instrument este furnizat de BioMar. Rezultatele sunt orientative și trebuie adaptate condițiilor specifice fermei tale.',
         // Contact
         'contactSubtitle':'Suntem la dispoziția ta pentru orice întrebare legată de hrană pentru acvacultură.',
-        'contactInfoTitle':'Informații de Contact',
+        'contactInfoTitle':'Informații de Contact', 'contactMapLink':'Deschide în Google Maps (direcții)',
         'mapNote':'Deservim fermieri din toată România',
         'formTitle':'Contactează-ne', 'formSubtitle':'Suntem aici să te ajutăm să găsești soluția potrivită pentru ferma ta.',
         'submitText':'Trimite Mesajul',
@@ -1241,7 +1241,7 @@
         'calcOpenBtn':'Open Feeding Tool',
         'calcDisclaimer':'This tool is provided by BioMar. Results are indicative and should be adapted to your farm\'s specific conditions.',
         'contactSubtitle':'We\'re at your disposal for any aquaculture feed enquiry.',
-        'contactInfoTitle':'Contact Information',
+        'contactInfoTitle':'Contact Information', 'contactMapLink':'Open in Google Maps (directions)',
         'mapNote':'We serve farmers across all of Romania',
         'formTitle':'Get in Touch', 'formSubtitle':'We\'re here to help you find the right solution for your farm.',
         'submitText':'Send Message',
