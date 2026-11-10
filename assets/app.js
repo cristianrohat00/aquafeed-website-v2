@@ -217,6 +217,40 @@
       return SHOP_BASE;                                            // 3) shop homepage
     }
 
+    // Shop collections for families with several products in the shop
+    // (checked against the shop 10 Nov 2026). A family not listed here, with
+    // several members, gets "Cere ofertă" instead of a guessed collection.
+    const SHOP_COLLECTION_BY_FAMILY = {
+      "inicio-plus":      "https://www.shop.aquafeed-biomar.ro/collections/inicio-plus",
+      "inicio-pregrower": "https://www.shop.aquafeed-biomar.ro/collections/inicio",
+      "efico-alpha":      "https://www.shop.aquafeed-biomar.ro/collections/efico-alpha",
+      "efico-enviro":     "https://www.shop.aquafeed-biomar.ro/collections/efico-enviro"
+    };
+    // Shop variant id per pellet size (mm, one decimal), so a link that knows
+    // the size (feed advisor) opens that size with its price. From the shop's
+    // admin, 10 Nov 2026. A size missing here opens the product's first size.
+    const SHOP_VARIANTS = {
+      "t-s-1": { "0.5":"53699815866717", "0.8":"53699815899485", "1.1":"53699815932253", "1.5":"53699815965021", "2.0":"53699815997789" }, // INICIO Plus
+      "t-pg-1": { "1.5":"53699593339229", "2.0":"53699593371997" },                        // INICIO 918
+      "t-pg-2": { "2.0":"53699942842717" },                                                // INICIO 702
+      "t-g-1": { "3.0":"53698894463325", "4.5":"53698894496093", "6.0":"53698894528861" }, // EFICO Alpha 790
+      "t-g-2": { "3.0":"65313006420317", "4.5":"53698958655837", "6.0":"53698958688605" }, // EFICO Alpha 790FT
+      "t-g-3": { "3.0":"53698763850077", "4.5":"53698763882845", "6.0":"53698763915613" }, // EFICO Alpha 756
+      "t-g-4": { "3.0":"65783872749917", "4.5":"65783872782685", "6.0":"65783872815453" }, // EFICO Alpha 717
+      "t-g-5": { "3.0":"53698670068061", "4.5":"53698670100829" },                        // EFICO Enviro 920 ADVANCE
+      "t-b-1": { "6.0":"53699951362397", "8.0":"53699951395165" }                         // EFICO Genio 991
+    };
+    const SHOP_QUOTE_URL = "contact.html";
+    // English pages open the same shop page in English (/en/).
+    function shopLang(url) {
+      return currentLang === 'en' ? url.replace(SHOP_BASE, SHOP_BASE + 'en/') : url;
+    }
+    // Quote link for products the shop does not sell; pre-fills the contact form.
+    function quoteHref(name) {
+      var msg = currentLang === 'ro' ? 'Doresc o ofertă pentru ' + name + '.' : 'I would like a quote for ' + name + '.';
+      return PREFIX + SHOP_QUOTE_URL + '?mesaj=' + encodeURIComponent(msg);
+    }
+
     // ─── EDIT: PRODUCT DATA (FAMILY MODEL) ───────────────────────
     // The catalogue is now organised by FAMILY (gamă). Each family has a
     // list of `members` (the individual products). A family with a single
@@ -529,16 +563,29 @@
     function familyMatchesPellet(f, v) { return f.members.some(function (m) { return v >= m._pmin && v <= m._pmax; }); }
     function memberMatchesPellet(m, v) { return v >= m._pmin && v <= m._pmax; }
 
-    // Shop URL resolution (member-level URL wins, then range collection, then shop home)
-    function shopForMember(f, m) {
-      if (m && m.shopUrl) return m.shopUrl;
-      if (f && SHOP_COLLECTION_BY_RANGE[f.range]) return SHOP_COLLECTION_BY_RANGE[f.range];
-      return SHOP_BASE;
+    // Shop URL resolution. Returns null when the shop does not sell it, so the
+    // button becomes "Cere ofertă" — never a collection of another species.
+    // mm (optional): pellet size; opens that size in the shop.
+    function shopForMember(f, m, mm) {
+      if (!m || !m.shopUrl) return null;
+      var url = m.shopUrl, sizes = SHOP_VARIANTS[m.id];
+      if (mm != null && sizes) {
+        var v = sizes[Number(mm).toFixed(1)];
+        if (v) url += '?variant=' + v;
+      }
+      return shopLang(url);
     }
     function shopForFamily(f) {
       if (f.members.length === 1) return shopForMember(f, f.members[0]);
-      if (SHOP_COLLECTION_BY_RANGE[f.range]) return SHOP_COLLECTION_BY_RANGE[f.range];
-      return SHOP_BASE;
+      return SHOP_COLLECTION_BY_FAMILY[f.id] ? shopLang(SHOP_COLLECTION_BY_FAMILY[f.id]) : null;
+    }
+    // Buy button, or "Cere ofertă" (same tab, contact form) when url is null.
+    function buyOrQuote(url, name, label, style, extra) {
+      var ro = currentLang === 'ro';
+      var cart = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>';
+      if (url) return '<a href="' + url + '" target="_blank" rel="noopener" class="btn btn-sky" style="' + style + '"' + (extra || '') +
+        ' title="' + (ro ? 'Cumpără ' : 'Buy ') + name + (ro ? ' din magazinul online' : ' in the online shop') + '">' + cart + label + '</a>';
+      return '<a href="' + quoteHref(name) + '" class="btn btn-outline" style="' + style + '"' + (extra || '') + '>' + (ro ? 'Cere ofertă' : 'Ask for a quote') + '</a>';
     }
 
     // ─── Labels & Colors ─────────────────────────────────────────
@@ -654,10 +701,7 @@
                   '</div>' +
                   '<div style="display:flex;gap:8px">' +
                     familyDatasheetButton(f) +
-                    '<a href="' + shopForFamily(f) + '" target="_blank" rel="noopener" class="btn btn-sky" style="padding:8px 18px;font-size:13px;border-radius:10px" onclick="event.stopPropagation()" title="Cumpără ' + f.family + ' din magazinul online">' +
-                      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>' +
-                      'Cumpără Acum' +
-                    '</a>' +
+                    buyOrQuote(shopForFamily(f), f.family, (currentLang === 'ro' ? 'Cumpără Acum' : 'Buy Now'), 'padding:8px 18px;font-size:13px;border-radius:10px', ' onclick="event.stopPropagation()"') +
                   '</div>' +
                 '</div>' +
                 '<h3 style="font-size:22px;font-weight:700;color:var(--dark);margin-bottom:8px;font-family:\'Playfair Display\',serif">' + f.family + '</h3>' +
@@ -745,10 +789,7 @@
                   (ro ? 'Detalii' : 'Details') +
                   '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>' +
                 '</button>' +
-                '<a href="' + shopForMember(f, m) + '" target="_blank" rel="noopener" class="btn btn-sky" style="padding:8px 16px;font-size:13px;border-radius:10px">' +
-                  '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>' +
-                  (ro ? 'Cumpără' : 'Buy') +
-                '</a>' +
+                buyOrQuote(shopForMember(f, m), m.name, (ro ? 'Cumpără' : 'Buy'), 'padding:8px 16px;font-size:13px;border-radius:10px') +
               '</div>' +
             '</div>';
         }).join('') +
@@ -807,7 +848,20 @@
       }).join('');
 
       var buyLink = document.getElementById('modalBuyLink');
-      if (buyLink) { buyLink.href = shopForMember(f, m); buyLink.title = 'Cumpără ' + m.name + ' din magazinul online'; }
+      if (buyLink) {
+        var buyUrl = shopForMember(f, m), buyLabel = document.getElementById('modalBuyLabel'), roB = currentLang === 'ro';
+        if (buyUrl) {
+          buyLink.href = buyUrl; buyLink.target = '_blank'; buyLink.className = 'btn btn-sky';
+          buyLink.title = roB ? 'Cumpără ' + m.name + ' din magazinul online' : 'Buy ' + m.name + ' in the online shop';
+          if (buyLabel) buyLabel.textContent = roB ? 'Cumpără Acum' : 'Buy Now';
+          if (buyLink.querySelector('svg')) buyLink.querySelector('svg').style.display = '';
+        } else {
+          buyLink.href = quoteHref(m.name); buyLink.removeAttribute('target'); buyLink.className = 'btn btn-outline';
+          buyLink.title = '';
+          if (buyLabel) buyLabel.textContent = roB ? 'Cere ofertă' : 'Ask for a quote';
+          if (buyLink.querySelector('svg')) buyLink.querySelector('svg').style.display = 'none';
+        }
+      }
 
       var dsLink = document.getElementById('modalDsLink'), ds = DATASHEETS[m.id];
       if (dsLink) {
@@ -1172,12 +1226,21 @@
         'heroDesc':'Distribuitor oficial BioMar în România. Furaje premium cu conversie alimentară excelentă, livrare în toată țara și suport tehnic pentru fermele piscicole.',
         'heroCta':'Descoperă Produsele', 'heroShop':'Magazin Online',
         // Why Us
-        'whyTitle':'De Ce Aquafeed Distribution?',
-        'whyP1':'Mai mult decât un furnizor de furaje — un partener real pentru acvacultură.',
-        'whyP2':'Cu peste 15 ani de experiență pe piața din România, înțelegem de ce au nevoie fermierii piscicoli: rezultate constante, calitate sigură, suport tehnic și livrări de încredere.',
-        'whyP3':'Prin parteneriatul nostru cu BioMar, aducem în România soluții de furajare de clasă mondială, susținute de cunoștințe locale și experiență practică în ferme.',
-        'whyP4':'Ajutăm fermele să crească mai eficient, să performeze mai bine și să planifice cu încredere.',
-        'whyP5':'Aquafeed Distribution — calitate globală, expertiză locală.',
+        'whyTitle':'De ce Aquafeed Distribution?',
+        'whyP1':'Mai mult decât un distribuitor de furaje — un partener tehnic pentru fermele piscicole din România.',
+        'whyP2':'Cu peste 15 ani de experiență în acvacultură și nutriția salmonidelor, înțelegem provocările reale dintr-o fermă piscicolă: conversia furajului, ritmul de creștere, calitatea apei, sănătatea peștilor și eficiența producției.',
+        'whyP3':'În parteneriat cu BioMar, unul dintre liderii mondiali în nutriția pentru acvacultură, furnizăm în România furaje premium pentru păstrăv și salmonide, dezvoltate pentru performanță, digestibilitate și rezultate constante.',
+        'whyP4':'Nu oferim doar produse, ci și suport tehnic specializat, recomandări adaptate fiecărei ferme și soluții bazate pe experiență practică în teren.',
+        'whyP6':'Aquafeed Distribution înseamnă nutriție performantă, expertiză locală și parteneriate construite pe rezultate reale.',
+        'whyL1':'✔ Furaje BioMar importate direct din Danemarca.',
+        'whyL2':'✔ Soluții pentru hatchery, puiet și îngrășare',
+        'whyL3':'✔ Suport tehnic dedicat fermelor piscicole',
+        'whyL4':'✔ Experiență practică în acvacultură',
+        'whyL5':'✔ Parteneriat bazat pe performanță și încredere',
+        'heroBadge':'Distribuitor Oficial BioMar în România',
+        'heroTrust1':'Distribuitor oficial BioMar',
+        'heroTrust2':'Livrare în toată România',
+        'heroTrust3':'Suport tehnic specializat',
         'stat1':'Ani de Parteneriat', 'stat2':'Specii Deservite', 'stat3':'Fermieri Parteneri', 'stat4':'Țări BioMar',
         // Ranges
         'rangesTitle':'Game de Produse',
@@ -1222,11 +1285,20 @@
         'heroDesc':'Official BioMar distributor in Romania. Premium fish feed with excellent feed conversion, nationwide delivery, and dedicated technical support for fish farms.',
         'heroCta':'Discover Products', 'heroShop':'Online Shop',
         'whyTitle':'Why Aquafeed Distribution?',
-        'whyP1':'More than a feed supplier — a real aquaculture partner.',
-        'whyP2':'With over 15 years of experience on the Romanian market, we understand what fish farmers need: consistent results, reliable quality, technical support, and dependable deliveries.',
-        'whyP3':'Through our partnership with BioMar, we bring world-class feeding solutions to Romania, backed by local knowledge and practical farm experience.',
-        'whyP4':'We help farms grow more efficiently, perform better, and plan with confidence.',
-        'whyP5':'Aquafeed Distribution — global quality, local expertise.',
+        'whyP1':'More than a feed distributor — a technical partner for fish farms in Romania.',
+        'whyP2':'With over 15 years of experience in aquaculture and salmonid nutrition, we understand the real challenges of a fish farm: feed conversion, growth rate, water quality, fish health and production efficiency.',
+        'whyP3':'In partnership with BioMar, one of the world leaders in aquaculture nutrition, we supply premium feed for trout and salmonids in Romania, developed for performance, digestibility and consistent results.',
+        'whyP4':'We do not just supply products: we also offer specialised technical support, recommendations tailored to each farm and solutions based on hands-on experience in the field.',
+        'whyP6':'Aquafeed Distribution means high-performance nutrition, local expertise and partnerships built on real results.',
+        'whyL1':'✔ BioMar feed imported directly from Denmark.',
+        'whyL2':'✔ Solutions for hatchery, fry and grow-out',
+        'whyL3':'✔ Dedicated technical support for fish farms',
+        'whyL4':'✔ Hands-on experience in aquaculture',
+        'whyL5':'✔ A partnership built on performance and trust',
+        'heroBadge':'Official BioMar Distributor in Romania',
+        'heroTrust1':'Official BioMar distributor',
+        'heroTrust2':'Delivery across Romania',
+        'heroTrust3':'Specialised technical support',
         'stat1':'Years of Partnership', 'stat2':'Species Served', 'stat3':'Partner Farms', 'stat4':'BioMar Countries',
         'rangesTitle':'Product Ranges',
         'rangesSubtitle':'Complete nutritional solutions for every growth stage — click to explore',

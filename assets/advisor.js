@@ -496,7 +496,7 @@
         }
         h += '<div class="adv-actions">' +
           '<button type="button" class="btn btn-outline" onclick="advOpenProduct(\'' + p.id + '\')">' + advT('details') + '</button>' +
-          '<a class="btn btn-sky" href="' + shopForMember(f, m) + '" target="_blank" rel="noopener">' + advT('buy') + '</a>' +
+          (shopForMember(f, m) ? '<a class="btn btn-sky" href="' + shopForMember(f, m, row ? row[2] : null) + '" target="_blank" rel="noopener">' + advT('buy') + '</a>' : '') +
           '<a class="btn btn-outline" href="contact.html?mesaj=' + encodeURIComponent(quote) + '">' + advT('quote') + '</a>' +
           '</div></div></div>';
       });
